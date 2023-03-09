@@ -1,0 +1,19 @@
+cabal-version: 3.6
+name: programming-paradigms-course
+version: 1.0.0
+build-type: Simple
+
+Library
+    hs-source-dirs: sheet00
+    Exposed-Modules: Lecture10
+    Build-Depends: base >= 3
+
+Test-Suite sheet00-tests
+    type: exitcode-stdio-1.0
+    hs-source-dirs: sheet00/tests
+    Main-is: Tests.hs
+    Build-Depends:  base >= 3,
+                    HUnit,
+                    test-framework,
+                    test-framework-hunit,
+                    programming-paradigms-course

@@ -1,0 +1,5 @@
+# HUnit Test Logs
+*.log
+
+# some haskell directory created in builds and tests
+dist-newstyle/
