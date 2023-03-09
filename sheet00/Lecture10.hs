@@ -17,3 +17,16 @@ qSortAnonymous (p:ps)   =      qSortAnonymous (filter (\x -> x <= p) ps)
 qSortPartial []         = []
 qSortPartial (p:ps)     =      (qSortPartial (filter (<= p) ps))
                           ++ p:(qSortPartial (filter (>  p) ps))
+
+-- binomial coefficient computation using Pascal's triangle formula and the
+-- if-then-else function
+binomIfElse n k =
+    if k == 0 || k == n
+    then 1
+    else binomIfElse (n-1) (k-1) + binomIfElse (n-1) k
+
+-- binomial coefficient computation using Pascal's triangle formula and the
+-- guard notation
+binomGuard n k
+ | k == 0 || k == n = 1
+ | otherwise        = binomGuard (n-1) (k-1) + binomGuard (n-1) k

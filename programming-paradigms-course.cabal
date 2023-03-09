@@ -12,6 +12,7 @@ Test-Suite sheet00-tests
     type: exitcode-stdio-1.0
     hs-source-dirs: sheet00/tests
     Main-is: Tests.hs
+    Other-Modules: TestQuickSort, TestBinom
     Build-Depends:  base >= 3,
                     HUnit,
                     test-framework,
