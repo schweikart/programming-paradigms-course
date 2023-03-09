@@ -30,3 +30,14 @@ binomIfElse n k =
 binomGuard n k
  | k == 0 || k == n = 1
  | otherwise        = binomGuard (n-1) (k-1) + binomGuard (n-1) k
+
+-- integer faculty computation using a naive recursion
+-- this will take up O(n) computational space when evaluating it!
+facultyNaive 1 = 1
+facultyNaive n = n * facultyNaive (n-1)
+
+-- integer faculty computation using tail recursion with an accumulator
+-- this will take up O(1) computational space when evaluating it!
+facultyAccumulator n = facAcc n 1 where
+    facAcc 1 acc = acc
+    facAcc n acc = facAcc (n - 1) (n * acc)

@@ -6,6 +6,9 @@ import Lecture10 (qSortListComp, qSortAnonymous, qSortPartial)
 
 import TestQuickSort (quickSortTestCases)
 import TestBinom (binomTestCases)
+import TestFaculty (facultyTestCases)
 
 main :: IO ()
-main = defaultMain (hUnitTestToTests (TestList (binomTestCases ++ quickSortTestCases)))
+main = defaultMain (hUnitTestToTests (TestList (
+        binomTestCases ++ quickSortTestCases ++ facultyTestCases
+    )))
