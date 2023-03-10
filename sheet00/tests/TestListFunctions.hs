@@ -1,6 +1,6 @@
 module TestListFunctions where
     import Test.HUnit (Test(TestCase, TestLabel), assertEqual, Assertable (assert), assertBool)
-    import Lecture10 (myLength, myElem, myMaxmimum, app)
+    import Lecture10 (myLength, myElem, myMaxmimum, app, myReverse)
     import Control.Exception (catch, evaluate, SomeException (SomeException), try)
     import Test.HUnit.Lang (Result(Error))
     import Data.Either (isLeft)
@@ -35,8 +35,15 @@ module TestListFunctions where
             testEq "myMaximum [15, 5]" (maximum [15, 5]) (myMaxmimum [15, 5]),
 
             -- append function
-            testEq "app [] [] == []" emptyList (app emptyList emptyList),
-            testEq "app [1] [] == [1]" [1] (app [1] emptyList),
-            testEq "app [] [1] == [1]" [1] (app emptyList [1]),
-            testEq "app [1, 2] [3, 4] == [1, 2, 3, 4]" [1, 2, 3, 4] (app [1, 2] [3, 4])
+            testEq "app [] [] == []" (emptyList ++ emptyList) (app emptyList emptyList),
+            testEq "app [1] [] == [1]" ([1] ++ emptyList) (app [1] emptyList),
+            testEq "app [] [1] == [1]" (emptyList ++ [1]) (app emptyList [1]),
+            testEq "app [1, 2] [3, 4] == [1, 2, 3, 4]" ([1, 2] ++ [3, 4]) (app [1, 2] [3, 4]),
+
+            -- reverse function
+            testEq "myReverse [] == reverse []" (reverse emptyList) (myReverse emptyList),
+            testEq "myReverse [1] == reverse [1]" (reverse [1]) (myReverse [1]),
+            testEq "myReverse [1, 2] == reverse [1, 2]" (reverse [1, 2]) (myReverse [1, 2]),
+            testEq "myReverse [1, 2, 3] == reverse [1, 2, 3]" (reverse [1, 2, 3]) (myReverse [1, 2, 3]),
+            testEq "myReverse [1..10] == reverse [1..10]" (reverse [1..10]) (myReverse [1..10])
         ]
