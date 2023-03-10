@@ -5,7 +5,7 @@ build-type: Simple
 
 Library
     hs-source-dirs: sheet00
-    Exposed-Modules: Lecture10
+    Exposed-Modules: Lecture10, Lecture11
     Build-Depends: base >= 3
 
 Test-Suite sheet00-tests
@@ -19,6 +19,7 @@ Test-Suite sheet00-tests
                     TestListFunctions,
                     TestControlFlow,
                     TestUtils,
+                    TestLecture11
     Build-Depends:  base >= 3,
                     HUnit,
                     test-framework,
