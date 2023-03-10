@@ -7,8 +7,12 @@ import Lecture10 (qSortListComp, qSortAnonymous, qSortPartial)
 import TestQuickSort (quickSortTestCases)
 import TestBinom (binomTestCases)
 import TestFaculty (facultyTestCases)
+import TestFibonacci (fibonacciTestCases)
 
 main :: IO ()
 main = defaultMain (hUnitTestToTests (TestList (
-        binomTestCases ++ quickSortTestCases ++ facultyTestCases
+        binomTestCases ++
+        quickSortTestCases ++
+        facultyTestCases ++
+        fibonacciTestCases
     )))

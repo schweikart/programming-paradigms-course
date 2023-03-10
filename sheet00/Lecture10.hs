@@ -41,3 +41,16 @@ facultyNaive n = n * facultyNaive (n-1)
 facultyAccumulator n = facAcc n 1 where
     facAcc 1 acc = acc
     facAcc n acc = facAcc (n - 1) (n * acc)
+
+-- n-th fibonacci number computation using a naive recursive approach
+-- this will take O(2^n) time when evaluating it!
+fibonacciNaive 0 = 0
+fibonacciNaive 1 = 1
+fibonacciNaive n = fibonacciNaive (n-1) + fibonacciNaive (n-2)
+
+-- n-th fibonacci number computation using an accumulator
+-- this will take O(n) time when evaluating it!
+fibonacciAccumulator n = fibAcc n 0 1 where
+    fibAcc 0 n1 _  = n1
+    fibAcc 1 _  n2 = n2
+    fibAcc n n1 n2 = fibAcc (n-1) n2 (n1 + n2)
