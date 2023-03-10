@@ -8,11 +8,13 @@ import TestQuickSort (quickSortTestCases)
 import TestBinom (binomTestCases)
 import TestFaculty (facultyTestCases)
 import TestFibonacci (fibonacciTestCases)
+import TestListFunctions (listFunctionsTestCases)
 
 main :: IO ()
 main = defaultMain (hUnitTestToTests (TestList (
         binomTestCases ++
         quickSortTestCases ++
         facultyTestCases ++
-        fibonacciTestCases
+        fibonacciTestCases ++
+        listFunctionsTestCases
     )))

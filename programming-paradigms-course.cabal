@@ -15,7 +15,8 @@ Test-Suite sheet00-tests
     Other-Modules:  TestQuickSort,
                     TestBinom,
                     TestFaculty,
-                    TestFibonacci
+                    TestFibonacci,
+                    TestListFunctions
     Build-Depends:  base >= 3,
                     HUnit,
                     test-framework,

@@ -54,3 +54,15 @@ fibonacciAccumulator n = fibAcc n 0 1 where
     fibAcc 0 n1 _  = n1
     fibAcc 1 _  n2 = n2
     fibAcc n n1 n2 = fibAcc (n-1) n2 (n1 + n2)
+
+-- counts the length of a list, re-implementation of the prelude length function
+myLength list = if null list then 0 else 1 + length (tail list)
+
+-- Checks if an item is contained in a list at least once
+myElem item list = not (null list) && (head list == item || myElem item (tail list))
+
+-- finds the maximum of a non-empty list
+myMaxmimum list
+  | null list           = error "empty!"
+  | null (tail list)    = head list
+  | otherwise           = max (head list) (myMaxmimum (tail list))
