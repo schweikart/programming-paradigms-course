@@ -69,3 +69,7 @@ myMaxmimum list
 
 -- re-implementation of the if-then-else syntax using the case syntax
 myIfThenElse b t e = case b of True -> t; False -> e
+
+-- re-implementation of the `++` method, concatenates two lists
+app [] list2       = list2
+app (p:ps) list2   = p:(app ps list2)

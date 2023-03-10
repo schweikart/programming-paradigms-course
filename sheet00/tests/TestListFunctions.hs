@@ -1,10 +1,14 @@
 module TestListFunctions where
     import Test.HUnit (Test(TestCase, TestLabel), assertEqual, Assertable (assert), assertBool)
-    import Lecture10 (myLength, myElem, myMaxmimum)
+    import Lecture10 (myLength, myElem, myMaxmimum, app)
     import Control.Exception (catch, evaluate, SomeException (SomeException), try)
     import Test.HUnit.Lang (Result(Error))
     import Data.Either (isLeft)
     import TestUtils (testEq)
+
+
+    emptyList :: [Integer]
+    emptyList = [];
     
     listFunctionsTestCases :: [Test]
     listFunctionsTestCases = [
@@ -28,5 +32,11 @@ module TestListFunctions where
                 )),
             testEq "myMaximum [5]" (maximum [5]) (myMaxmimum [5]),
             testEq "myMaximum [0..100]" (maximum [0..100]) (myMaxmimum [0..100]),
-            testEq "myMaximum [15, 5]" (maximum [15, 5]) (myMaxmimum [15, 5])
+            testEq "myMaximum [15, 5]" (maximum [15, 5]) (myMaxmimum [15, 5]),
+
+            -- append function
+            testEq "app [] [] == []" emptyList (app emptyList emptyList),
+            testEq "app [1] [] == [1]" [1] (app [1] emptyList),
+            testEq "app [] [1] == [1]" [1] (app emptyList [1]),
+            testEq "app [1, 2] [3, 4] == [1, 2, 3, 4]" [1, 2, 3, 4] (app [1, 2] [3, 4])
         ]
