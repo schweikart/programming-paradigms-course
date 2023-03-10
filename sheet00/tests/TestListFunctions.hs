@@ -4,13 +4,8 @@ module TestListFunctions where
     import Control.Exception (catch, evaluate, SomeException (SomeException), try)
     import Test.HUnit.Lang (Result(Error))
     import Data.Either (isLeft)
+    import TestUtils (testEq)
     
-    emptyIntList :: [Int]
-    emptyIntList = []
-    
-    testEq :: (Eq t, Show t) => String -> t -> t -> Test
-    testEq msg expected actual = TestLabel msg (TestCase (assertEqual msg expected actual))
-
     listFunctionsTestCases :: [Test]
     listFunctionsTestCases = [
             -- lenght function
@@ -24,11 +19,11 @@ module TestListFunctions where
 
             -- maximum function
             TestLabel "maximum [] throws an error" (TestCase (do
-                    result <- try (evaluate (myMaxmimum emptyIntList)) :: IO (Either SomeException Int)
+                    result <- try (evaluate (myMaxmimum [])) :: IO (Either SomeException Int)
                     assertBool "maximum [] throws an error" (isLeft result)
                 )),
             TestLabel "myMaximum [] throws an error" (TestCase (do
-                    result <- try (evaluate (maximum emptyIntList)) :: IO (Either SomeException Int)
+                    result <- try (evaluate (maximum [])) :: IO (Either SomeException Int)
                     assertBool "myMaximum [] throws an error" (isLeft result)
                 )),
             testEq "myMaximum [5]" (maximum [5]) (myMaxmimum [5]),

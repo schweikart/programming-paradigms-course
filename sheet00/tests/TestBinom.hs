@@ -1,22 +1,19 @@
 module TestBinom where
-    import Test.HUnit (Test(TestCase), assertEqual)
+    import Test.HUnit (Test)
     import Lecture10 (binomIfElse, binomGuard)
+    import TestUtils (testEq)
     
-    testBinomImplementation :: (Integer -> Integer -> Integer) -> Integer -> Integer -> Integer -> Test
-    testBinomImplementation binom n k result =
-        TestCase(assertEqual "" result (binom n k))
-
     binomTestCases :: [Test]
     binomTestCases = [
             -- test base case
-            testBinomImplementation binomIfElse 0 0 1,
-            testBinomImplementation binomGuard 0 0 1,
+            testEq "binomIfElse 0 0 == 1" 1 (binomIfElse 0 0),
+            testEq "binomGuard 0 0 == 1" 1 (binomGuard 0 0),
 
             -- test with sample
-            testBinomImplementation binomIfElse 4 2 6,
-            testBinomImplementation binomGuard 4 2 6,
+            testEq "binomIfElse 4 2 == 6" 6 (binomIfElse 4 2),
+            testEq "binomGuard 4 2 == 6" 6 (binomGuard 4 2),
 
             -- test with edge case
-            testBinomImplementation binomIfElse 42 42 1,
-            testBinomImplementation binomGuard 42 42 1
+            testEq "binomIfElse 42 42 == 1" 1 (binomIfElse 42 42),
+            testEq "binomGuard 42 42 == 1" 1 (binomGuard 42 42)
         ]

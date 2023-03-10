@@ -1,20 +1,17 @@
 module TestFibonacci where
-    import Test.HUnit (Test(TestCase, TestLabel), assertEqual)
+    import Test.HUnit (Test)
     import Lecture10 (fibonacciNaive, fibonacciAccumulator)
-
-    testFibonacciImplementation :: (Integer -> Integer) -> Integer -> Integer -> Test
-    testFibonacciImplementation fibonacci n result =
-        TestCase (assertEqual "" result (fibonacci n))
-
+    import TestUtils (testEq)
+    
     fibonacciTestCases :: [Test]
     fibonacciTestCases = [
             -- test base cases
-            TestLabel "fibNaive 0 == 0" (testFibonacciImplementation fibonacciNaive 0 0),
-            TestLabel "fibAcc 0 == 0" (testFibonacciImplementation fibonacciAccumulator 0 0),
-            TestLabel "fibNaive 1 == 1" (testFibonacciImplementation fibonacciNaive 1 1),
-            TestLabel "fibAcc 1 == 1" (testFibonacciImplementation fibonacciAccumulator 1 1),
+            testEq "fibonacciNaive 0 == 0" 0 (fibonacciNaive 0),
+            testEq "fibonacciAccumulator 0 == 0" 0 (fibonacciAccumulator 0),
+            testEq "fibonacciNaive 1 == 1" 1 (fibonacciNaive 1),
+            testEq "fibonacciAccumulator 1 == 1" 1 (fibonacciAccumulator 1),
 
             -- test recursive case
-            TestLabel "fibNaive 16 == 987" (testFibonacciImplementation fibonacciNaive 16 987),
-            TestLabel "fibAcc 16 == 987" (testFibonacciImplementation fibonacciAccumulator 16 987)
+            testEq "fibonacciNaive 16 == 987" 987 (fibonacciNaive 16),
+            testEq "fibonacciAccumulator 16 == 987" 987 (fibonacciAccumulator 16)
         ]
