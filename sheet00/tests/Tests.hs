@@ -11,6 +11,7 @@ import TestFibonacci (fibonacciTestCases)
 import TestListFunctions (listFunctionsTestCases)
 import TestControlFlow (controlFlowTestCases)
 import TestLecture11 (lecture11tests)
+import TestMax3 (max3testCases)
 
 main :: IO ()
 main = defaultMain (hUnitTestToTests (TestList (
@@ -20,5 +21,6 @@ main = defaultMain (hUnitTestToTests (TestList (
         fibonacciTestCases ++
         listFunctionsTestCases ++
         controlFlowTestCases ++
-        lecture11tests
+        lecture11tests ++
+        max3testCases
     )))
