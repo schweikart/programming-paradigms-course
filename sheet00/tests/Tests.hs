@@ -9,6 +9,7 @@ import TestBinom (binomTestCases)
 import TestFaculty (facultyTestCases)
 import TestFibonacci (fibonacciTestCases)
 import TestListFunctions (listFunctionsTestCases)
+import TestControlFlow (controlFlowTestCases)
 
 main :: IO ()
 main = defaultMain (hUnitTestToTests (TestList (
@@ -16,5 +17,6 @@ main = defaultMain (hUnitTestToTests (TestList (
         quickSortTestCases ++
         facultyTestCases ++
         fibonacciTestCases ++
-        listFunctionsTestCases
+        listFunctionsTestCases ++
+        controlFlowTestCases
     )))

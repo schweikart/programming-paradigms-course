@@ -17,7 +17,8 @@ Test-Suite sheet00-tests
                     TestFaculty,
                     TestFibonacci,
                     TestListFunctions,
-                    TestUtils
+                    TestControlFlow,
+                    TestUtils,
     Build-Depends:  base >= 3,
                     HUnit,
                     test-framework,

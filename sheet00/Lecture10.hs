@@ -66,3 +66,6 @@ myMaxmimum list
   | null list           = error "empty!"
   | null (tail list)    = head list
   | otherwise           = max (head list) (myMaxmimum (tail list))
+
+-- re-implementation of the if-then-else syntax using the case syntax
+myIfThenElse b t e = case b of True -> t; False -> e
