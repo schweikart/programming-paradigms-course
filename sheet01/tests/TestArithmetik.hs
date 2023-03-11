@@ -14,7 +14,15 @@ module TestArithmetik where
             testEq "pow2 99999 0 == 1" 1 (pow2 99999 0),
             testEq "pow2 14 15 == pow1 14 15" (pow1 14 15) (pow2 14 15)
         ]
+    
+    pow3Tests = [
+            testEq "pow3 2 10 == 1024" 1024 (pow2 2 10),
+            testEq "pow3 10 10 == 10000000000" 10000000000 (pow2 10 10),
+            testEq "pow3 99999 0 == 1" 1 (pow2 99999 0),
+            testEq "pow3 14 15 == pow1 14 15" (pow1 14 15) (pow2 14 15)
+        ]
 
     arithmeticTestCases = 
         pow1Tests ++
-        pow2Tests
+        pow2Tests ++
+        pow3Tests
