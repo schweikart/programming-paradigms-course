@@ -1,16 +1,16 @@
 cabal-version: 3.6
-name: programming-paradigms-course
+name: sheet00
 version: 1.0.0
 build-type: Simple
 
 Library
-    hs-source-dirs: sheet00
+    hs-source-dirs: .
     Exposed-Modules: Lecture10, Lecture11, Max3
     Build-Depends: base >= 3
 
 Test-Suite sheet00-tests
     type: exitcode-stdio-1.0
-    hs-source-dirs: sheet00/tests
+    hs-source-dirs: ./tests
     Main-is: Tests.hs
     Other-Modules:  TestQuickSort,
                     TestBinom,
@@ -25,4 +25,4 @@ Test-Suite sheet00-tests
                     HUnit,
                     test-framework,
                     test-framework-hunit,
-                    programming-paradigms-course
+                    sheet00

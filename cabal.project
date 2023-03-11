@@ -1,0 +1,2 @@
+packages: sheet*/*.cabal
+tests: True
