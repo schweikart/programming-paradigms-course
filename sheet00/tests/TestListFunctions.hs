@@ -1,14 +1,11 @@
 module TestListFunctions where
-    import Test.HUnit (Test(TestCase, TestLabel), assertEqual, Assertable (assert), assertBool)
+    import Test.HUnit (Test)
     import Lecture10 (myLength, myElem, myMaxmimum, app, myReverse)
-    import Control.Exception (catch, evaluate, SomeException (SomeException), try)
-    import Test.HUnit.Lang (Result(Error))
-    import Data.Either (isLeft)
-    import TestUtils (testEq)
-
-
+    import TestUtils (testEq, testThrows)
+    import Control.Exception (try, evaluate)
+    
     emptyList :: [Integer]
-    emptyList = [];
+    emptyList = []
     
     listFunctionsTestCases :: [Test]
     listFunctionsTestCases = [
@@ -22,14 +19,8 @@ module TestListFunctions where
             testEq "myElem 10 [10, 10]" (elem 10 [10, 10]) (myElem 10 [10, 10]),
 
             -- maximum function
-            TestLabel "maximum [] throws an error" (TestCase (do
-                    result <- try (evaluate (myMaxmimum [])) :: IO (Either SomeException Int)
-                    assertBool "maximum [] throws an error" (isLeft result)
-                )),
-            TestLabel "myMaximum [] throws an error" (TestCase (do
-                    result <- try (evaluate (maximum [])) :: IO (Either SomeException Int)
-                    assertBool "myMaximum [] throws an error" (isLeft result)
-                )),
+            testThrows "maximum [] throws an error" (try (evaluate (maximum emptyList))),
+            testThrows "maximum [] throws an error" (try (evaluate (myMaxmimum emptyList))),
             testEq "myMaximum [5]" (maximum [5]) (myMaxmimum [5]),
             testEq "myMaximum [0..100]" (maximum [0..100]) (myMaxmimum [0..100]),
             testEq "myMaximum [15, 5]" (maximum [15, 5]) (myMaxmimum [15, 5]),
