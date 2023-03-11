@@ -1,0 +1,12 @@
+cabal-version: 3.6
+name: test-utils
+version: 1.0.0
+build-type: Simple
+
+Library
+    hs-source-dirs: .
+    Exposed-Modules: TestUtils
+    Build-Depends:  base >= 3,
+                    HUnit,
+                    test-framework,
+                    test-framework-hunit

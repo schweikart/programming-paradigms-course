@@ -1,9 +1,3 @@
-import Test.HUnit (Test(TestList))
-import Test.Framework (defaultMain)
-import Test.Framework.Providers.HUnit (hUnitTestToTests)
-
-import Lecture10 (qSortListComp, qSortAnonymous, qSortPartial)
-
 import TestQuickSort (quickSortTestCases)
 import TestBinom (binomTestCases)
 import TestFaculty (facultyTestCases)
@@ -12,9 +6,10 @@ import TestListFunctions (listFunctionsTestCases)
 import TestControlFlow (controlFlowTestCases)
 import TestLecture11 (lecture11tests)
 import TestMax3 (max3testCases)
+import TestUtils (runTests)
 
 main :: IO ()
-main = defaultMain (hUnitTestToTests (TestList (
+main = runTests (
         binomTestCases ++
         quickSortTestCases ++
         facultyTestCases ++
@@ -23,4 +18,4 @@ main = defaultMain (hUnitTestToTests (TestList (
         controlFlowTestCases ++
         lecture11tests ++
         max3testCases
-    )))
+    )
