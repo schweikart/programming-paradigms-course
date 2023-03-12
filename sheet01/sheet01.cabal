@@ -5,14 +5,14 @@ build-type: Simple
 
 Library
     hs-source-dirs: .
-    Exposed-Modules: Arithmetik
+    Exposed-Modules: Arithmetik, Sort
     Build-Depends: base >= 3
 
 Test-Suite sheet01-tests
     type: exitcode-stdio-1.0
     hs-source-dirs: ./tests
     Main-is: Tests.hs
-    Other-Modules:  TestArithmetik
+    Other-Modules:  TestArithmetik, TestSort
     Build-Depends:  base >= 3,
                     test-utils,
                     sheet01

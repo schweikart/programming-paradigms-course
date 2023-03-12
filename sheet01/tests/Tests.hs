@@ -1,3 +1,4 @@
 import TestUtils (runTests)
 import TestArithmetik (arithmeticTestCases)
-main = runTests arithmeticTestCases
+import TestSort (sortTestCases)
+main = runTests (arithmeticTestCases ++ sortTestCases)
