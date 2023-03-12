@@ -24,6 +24,7 @@ module Arithmetik where
                 | even e'   = pow3acc (b' * b') (e' `div` 2) acc
                 | otherwise = pow3acc b' (e' - 1) (acc * b')
 
+    -- Task 1.4: integer root computation using binary search
     root e r
         | e <= 0    = error "non-positive exponent"
         | r < 0     = error "negative radicand"
@@ -36,3 +37,12 @@ module Arithmetik where
                     then rootInterval middle b 
                     else rootInterval a middle
                     where middle = a + ((b - a) `div` 2)
+
+    -- Task 1.5: prime number identification
+    isPrime n
+        | n < 2     = False
+        | otherwise = isPrimeLoop (root 2 n) where
+            isPrimeLoop factor
+                | factor == 1           = True -- if we reach this point, we haven't found any factors!
+                | n `mod` factor == 0   = False
+                | otherwise             = isPrimeLoop (factor - 1)

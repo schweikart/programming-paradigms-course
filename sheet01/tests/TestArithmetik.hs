@@ -1,6 +1,6 @@
 module TestArithmetik where
-    import TestUtils (testEq, testThrows)
-    import Arithmetik (pow1, pow2, pow3, root)
+    import TestUtils (testEq, testThrows, testBool)
+    import Arithmetik (pow1, pow2, pow3, root, isPrime)
     import Control.Exception (try, evaluate)
     
     pow1Tests = [
@@ -41,8 +41,21 @@ module TestArithmetik where
             testThrows "root should throw an error for non-positive exponents" (try (evaluate (root 0 1)))
         ]
 
+    isPrimeTests = [
+            testBool "-1 is not a prime" (not (isPrime (-1 :: Integer))),
+            testBool "0 is not a prime" (not (isPrime 0)),
+            testBool "1 is not a prime" (not (isPrime 1)),
+            testBool "2 is a prime" (isPrime 2),
+            testBool "3 is a prime" (isPrime 3),
+            testBool "4 is not a prime" (not (isPrime 4)),
+            testBool "5 is a prime" (isPrime 5),
+            testBool "69 is not a prime" (not (isPrime 69)),
+            testBool "127 is a (double mersenne) prime" (isPrime 127)
+        ]
+
     arithmeticTestCases = 
         pow1Tests ++
         pow2Tests ++
         pow3Tests ++
-        rootTests
+        rootTests ++
+        isPrimeTests
