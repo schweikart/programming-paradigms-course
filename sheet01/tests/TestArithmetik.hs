@@ -26,10 +26,17 @@ module TestArithmetik where
         ]
     
     rootTests = [
+            -- tests for existing roots
             testEq "root 1 0 == 0" 0 (root 1 0),
             testEq "root 2 4 == 2" 2 (root 2 4),
             testEq "root 3 27 == 3" 3 (root 3 27),
             testEq "root 7 (pow3 7 9) == 9" 9 (root 7 (pow3 7 9)),
+
+            -- tests for rounded roots
+            testEq "root 2 5 == 2" 2 (root 2 5),        -- 2^2 ==  4 <=   5 <   8 = 2^3
+            testEq "root 3 100 == 4" 4 (root 3 100),    -- 3^4 == 81 <= 100 < 243 = 3^5
+            
+            -- tests for invalid inputs
             testThrows "root should throw an error for negative radicands" (try (evaluate (root 1 (-1 :: Integer)))),
             testThrows "root should throw an error for non-positive exponents" (try (evaluate (root 0 1)))
         ]
