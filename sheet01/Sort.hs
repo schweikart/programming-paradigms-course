@@ -13,3 +13,9 @@ module Sort where
         | x < y         = x:merge xs (y:ys)
         | x >= y        = y:merge (x:xs) ys
     merge xs ys         = xs ++ ys -- one of them is empty
+
+    -- Task 2.4: sort a given list using the merge sort algorithm
+    mergeSort [] = []
+    mergeSort [x] = [x]
+    mergeSort list = merge (mergeSort (take half list)) (mergeSort (drop half list)) where
+        half = length list `div` 2

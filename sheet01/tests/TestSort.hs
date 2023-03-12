@@ -1,5 +1,5 @@
 module TestSort where
-    import Sort (insert, insertSort, merge)
+    import Sort (insert, insertSort, merge, mergeSort)
     import TestUtils (testEq)
 
     typedEmptyList :: [Integer]
@@ -31,4 +31,15 @@ module TestSort where
             testEq "merge [4,5] [0..9] == [0,1,2,3,4,4,5,5,6,7,8,9]" [0,1,2,3,4,4,5,5,6,7,8,9] (merge [4,5] [0..9])
         ]
     
-    sortTestCases = insertTests ++ insertSortTests ++ mergeTests
+    mergeSortTests = [
+            testEq "mergeSort [] == []" [] (mergeSort typedEmptyList),
+            testEq "mergeSort [10] == [10]" [10] (mergeSort [10]),
+            testEq "mergeSort (reverse [0..10]) == [0..10]" [0..10] (mergeSort (reverse [0..10])),
+            testEq "mergeSort [8,4,2,6,1,4,3,7,3] == [1,2,3,3,4,4,6,7,8]" [1,2,3,3,4,4,6,7,8] (mergeSort [8,4,2,6,1,4,3,7,3])
+        ]
+    
+    sortTestCases =
+        insertTests ++
+        insertSortTests ++
+        mergeTests ++
+        mergeSortTests
