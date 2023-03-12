@@ -30,13 +30,11 @@ module Arithmetik where
         | r < 0     = error "negative radicand"
         | otherwise = rootInterval 0 (r+1) where
             rootInterval a b
-                | a >= b        = error "invalid boundaries"
-                | b - a == 1    = a
-                | otherwise     =
-                    if pow3 e middle <= r -- equivalent to: middle <= root e r
-                    then rootInterval middle b 
-                    else rootInterval a middle
-                    where middle = a + ((b - a) `div` 2)
+                | a >= b                = error "invalid boundaries"
+                | b - a == 1            = a
+                | pow3 e middle <= r    = rootInterval middle b -- equivalent to: middle <= root e r
+                | otherwise             = rootInterval a middle 
+                where middle = a + ((b - a) `div` 2)
 
     -- Task 1.5: prime number identification
     isPrime n
