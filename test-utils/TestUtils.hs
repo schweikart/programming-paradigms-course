@@ -9,6 +9,10 @@ module TestUtils where
     testEq :: (Eq t, Show t) => String -> t -> t -> Test
     testEq msg expected actual = TestLabel msg (TestCase (assertEqual msg expected actual))
 
+    -- wraps assertBool with a labeled test case
+    testBool :: String -> Bool -> Test
+    testBool msg actual = TestLabel msg (TestCase (assertBool msg actual))
+
     -- assertion that checks if a called function yields an exception
     -- pass the function call with 'try (evaluate (myFunction myArgs...))'
     assertThrows :: String -> IO (Either SomeException a) -> Assertion
