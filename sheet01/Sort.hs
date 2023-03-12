@@ -4,3 +4,6 @@ module Sort where
     insert number (p:ps)
         | number <  p   = number:p:ps
         | number >= p   = p:insert number ps
+
+    -- Task 2.2: sort a given list using the insertion sort algorithm
+    insertSort ps = foldr insert [] ps
