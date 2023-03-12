@@ -1,6 +1,6 @@
 module TestArithmetik where
     import TestUtils (testEq, testThrows)
-    import Arithmetik (pow1, pow2, pow3)
+    import Arithmetik (pow1, pow2, pow3, root)
     import Control.Exception (try, evaluate)
     
     pow1Tests = [
@@ -24,8 +24,18 @@ module TestArithmetik where
             testEq "pow3 14 15 == pow1 14 15" (pow1 14 15) (pow3 14 15),
             testThrows "pow3 10 -1 throws an error" (try (evaluate (pow3 10 (-1 :: Integer))))
         ]
+    
+    rootTests = [
+            testEq "root 1 0 == 0" 0 (root 1 0),
+            testEq "root 2 4 == 2" 2 (root 2 4),
+            testEq "root 3 27 == 3" 3 (root 3 27),
+            testEq "root 7 (pow3 7 9) == 9" 9 (root 7 (pow3 7 9)),
+            testThrows "root should throw an error for negative radicands" (try (evaluate (root 1 (-1 :: Integer)))),
+            testThrows "root should throw an error for non-positive exponents" (try (evaluate (root 0 1)))
+        ]
 
     arithmeticTestCases = 
         pow1Tests ++
         pow2Tests ++
-        pow3Tests
+        pow3Tests ++
+        rootTests
