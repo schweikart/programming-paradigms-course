@@ -1,0 +1,9 @@
+cabal-version: 3.6
+name: scripts
+version: 1.0.0
+build-type: Simple
+
+Executable scripts
+    Main-is: CreateSheetPackage.hs
+    Build-Depends:  base >= 3,
+                    directory
