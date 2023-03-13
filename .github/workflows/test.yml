@@ -1,0 +1,12 @@
+on: [push]
+
+name: test
+
+jobs:
+  run-hunit-tests:
+    name: Run HUnit tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: haskell/actions/setup@v2
+    - run: cabal test all
