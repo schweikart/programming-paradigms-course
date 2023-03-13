@@ -29,7 +29,8 @@ module TestCollatz (collatzTestCases) where
     numTests = [
             testEq "num 1 == 0" 0 $ num 1,
             testEq "num 42 == 8" 8 $ num 42,
-            testEq "num 3 == 7" 7 $ num 3
+            testEq "num 3 == 7" 7 $ num 3,
+            testEq "num 4 == 2" 2 $ num 4
         ]
 
     collatzTestCases = collatzTests ++ numTests
