@@ -1,6 +1,6 @@
 module TestCollatz (collatzTestCases) where
     import TestUtils (testEq)
-    import Collatz (collatz, num)
+    import Collatz (collatz, num, maxNum)
     
     collatzTests = [
             -- test first number
@@ -27,10 +27,22 @@ module TestCollatz (collatzTestCases) where
         ]
     
     numTests = [
-            testEq "num 1 == 0" 0 $ num 1,
-            testEq "num 42 == 8" 8 $ num 42,
-            testEq "num 3 == 7" 7 $ num 3,
-            testEq "num 4 == 2" 2 $ num 4
+            testEq "num 1 ==  0"  0 $ num 1,
+            testEq "num 2 ==  1"  1 $ num 2,
+            testEq "num 3 ==  7"  7 $ num 3, -- (3), 10, 5, 16, 8, 4, 2
+            testEq "num 4 ==  2"  2 $ num 4, -- (4), 2
+            testEq "num 5 ==  5"  5 $ num 5,
+            testEq "num 6 ==  8"  8 $ num 6, -- (6), 3
+            testEq "num 7 == 16" 16 $ num 7, -- (7), 22, 11, 34, 17, 52, 26, 13, 40, 20
+            testEq "num 8 ==  3"  3 $ num 8,
+            testEq "num 9 == 19" 19 $ num 9, -- (9), 28, 14, 7
+            testEq "num 10 == 6"  6 $ num 10,
+
+            testEq "num 42 == 8" 8 $ num 42
+        ]
+    
+    maxNumTests = [
+            testEq "maxNum " (9, 19) $ maxNum 1 10
         ]
 
-    collatzTestCases = collatzTests ++ numTests
+    collatzTestCases = collatzTests ++ numTests ++ maxNumTests

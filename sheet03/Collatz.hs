@@ -1,4 +1,4 @@
-module Collatz (collatz, num) where
+module Collatz (collatz, num, maxNum) where
     -- Task 2.1: Create stream of collatz sequence members for a given
     -- starting point.
     collatz :: Int -> [Int]
@@ -16,3 +16,13 @@ module Collatz (collatz, num) where
         numAcc x acc -- use tail recursion
             | x == 1    = acc
             | otherwise = numAcc (nextCollatzElement x) (acc + 1)
+
+    maxNum :: Int -> Int -> (Int,Int)
+    maxNum a b
+        | a > b             = error "invalid range"
+        | b - a == 1        = (a, numA)
+        | numA > maxNumRest = (a, numA)
+        | otherwise         = (maxIdxRest, maxNumRest)
+        where
+            (maxIdxRest, maxNumRest) = maxNum (a+1) b
+            numA = num a
