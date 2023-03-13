@@ -3,10 +3,11 @@ module TestPolynom (polynomialTestCases) where
     import TestUtils (testEq)
     
     cmultTests = [
-            testEq "2 `cmult` [] == []" [] $ 2 `cmult` [],
-            testEq "1 `cmult` [1, 2, 3]" [1, 2, 3] $ 1 `cmult` [1, 2, 3],
-            testEq "2 `cmult` [1, 2, 3] == [2, 4, 6]" [2, 4, 6] $ 2 `cmult` [1, 2, 3],
-            testEq "0 `cmult` [1, 2, 3] == []" [] $ 0 `cmult` [1, 2, 3]
+            testEq "[] `cmult` 2 == []" [] $ [] `cmult` 2,
+            testEq "[1, 2, 3] `cmult` 1 == [1, 2, 3]" [1, 2, 3] $ [1, 2, 3] `cmult` 1,
+            testEq "[1, 2, 3] `cmult` 2 == [2, 4, 6]" [2, 4, 6] $ [1, 2, 3] `cmult` 2,
+            testEq "[1, 2, 3] `cmult` 0 == []" [] $ [1, 2, 3] `cmult` 0,
+            testEq "[] `cmult` 0 == []" [] $ [] `cmult` 0
         ]
     
     polynomialTestCases = cmultTests
