@@ -1,8 +1,8 @@
 module TestCollatz (collatzTestCases) where
     import TestUtils (testEq)
-    import Collatz (collatz)
-
-    collatzTestCases = [
+    import Collatz (collatz, num)
+    
+    collatzTests = [
             -- test first number
             testEq "head (collatz 1) == 1" 1 $ head (collatz 1),
             testEq "head (collatz 424824) == 424824" 424824 $ head (collatz 424824),
@@ -25,3 +25,11 @@ module TestCollatz (collatzTestCases) where
             testEq "(collatz 42) !! 7 ==  2"  2 $ collatz 42 !! 7,
             testEq "(collatz 42) !! 8 ==  1"  1 $ collatz 42 !! 8
         ]
+    
+    numTests = [
+            testEq "num 1 == 0" 0 $ num 1,
+            testEq "num 42 == 8" 8 $ num 42,
+            testEq "num 3 == 7" 7 $ num 3
+        ]
+
+    collatzTestCases = collatzTests ++ numTests
