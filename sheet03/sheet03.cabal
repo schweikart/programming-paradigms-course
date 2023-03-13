@@ -1,0 +1,19 @@
+cabal-version: 3.6
+name: sheet03
+version: 1.0.0
+build-type: Simple
+
+Library
+    hs-source-dirs: .
+    Exposed-Modules: Fibs
+    Build-Depends: base >= 3
+
+Test-Suite sheet03
+    type: exitcode-stdio-1.0
+    hs-source-dirs: ./tests
+    Main-is: Tests.hs
+    Other-Modules:  TestFibs
+    Build-Depends:  base >= 3,
+                    test-utils,
+                    sheet03
+
