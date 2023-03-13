@@ -11,8 +11,8 @@ module Collatz (collatz, num) where
 
     -- Task 2.2: Finds the first index of a 1 in the collatz sequence starting
     -- with x.
-    -- TODO: convert this to a tail recursive function
     num :: Int -> Int
-    num x
-        | x == 1    = 0
-        | otherwise = 1 + num (nextCollatzElement x)
+    num x = numAcc x 0 where
+        numAcc x acc -- use tail recursion
+            | x == 1    = acc
+            | otherwise = numAcc (nextCollatzElement x) (acc + 1)
