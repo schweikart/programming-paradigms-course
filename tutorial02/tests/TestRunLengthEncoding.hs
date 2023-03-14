@@ -8,6 +8,7 @@ module TestRunLengthEncoding (runLengthEncodingTestCases) where
         ]
     
     groupTests = [
+            testEq "group [] == []" [] $ group ([] :: [Int]),
             testEq "group [1,1,2,1,3,3,3] == [[1,1], [2], [1], [3,3,3]]" [[1,1], [2], [1], [3,3,3]] $ group [1,1,2,1,3,3,3],
             testEq "group \"aaabbacccc\" == [\"aaa\", \"bb\", \"a\", \"cccc\"]" ["aaa", "bb", "a", "cccc"] $ group "aaabbacccc"
         ]
