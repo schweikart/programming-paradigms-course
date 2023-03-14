@@ -4,6 +4,7 @@
 
 import System.Posix.Internals (newFilePath)
 import System.Directory (doesDirectoryExist, createDirectory)
+import Data.Char (toLower)
 
 main :: IO ()
 main = do
@@ -16,28 +17,45 @@ main = do
         then
             putStrLn "Sheet directory already exists!"
         else (do
-            createDirectory sheetDirectoryPath
-
+            putStrLn "Please enter the name of the *Library* module to create:"
+            libModuleName <- getLine
+            let testModuleName = "Test" ++ libModuleName
+            let testCasesVarName = lowerCamelCase libModuleName ++ "TestCases"
             let cabalFilePath = sheetDirectoryPath ++ "/sheet" ++ sheetNumber ++ ".cabal" 
-            writeFile cabalFilePath $ cabalFileContents sheetNumber
-
-            let mainFilePath = sheetDirectoryPath ++ "/Sheet" ++ sheetNumber ++ ".hs"
-            writeFile mainFilePath $ mainFileContents sheetNumber
-
+            let libModulePath = sheetDirectoryPath ++ "/" ++ libModuleName ++ ".hs"
             let testDirectoryPath = sheetDirectoryPath ++ "/tests"
-            createDirectory testDirectoryPath
-
             let testMainFilePath = testDirectoryPath ++ "/Tests.hs"
-            writeFile testMainFilePath $ testMainFileContents sheetNumber
+            let testModulePath = testDirectoryPath ++ "/" ++ testModuleName ++ ".hs"
 
-            let testSheetsFilePath = testDirectoryPath ++ "/TestSheet" ++ sheetNumber ++ ".hs"
-            writeFile testSheetsFilePath $ testSheetFileContents sheetNumber
+            putStrLn "The following files will be created:"
+            putStrLn $ unlines $ map (" - " ++) [
+                    sheetDirectoryPath,
+                    cabalFilePath,
+                    libModulePath,
+                    testDirectoryPath,
+                    testMainFilePath,
+                    testModulePath
+                ]
+        
+            putStrLn "Is this okay? [y]"
+            confirmation <- getLine
+            if confirmation /= "y"
+                then
+                    putStrLn "Aborting"
+                else do
+                    createDirectory sheetDirectoryPath
+                    writeFile cabalFilePath $ cabalFileContents sheetNumber libModuleName testModuleName
+                    writeFile libModulePath $ libModuleContents libModuleName
 
-            putStrLn $ "Created package for sheet " ++ sheetNumber ++ "!"
+                    createDirectory testDirectoryPath
+                    writeFile testMainFilePath $ testMainFileContents testModuleName testCasesVarName
+                    writeFile testModulePath $ testModuleContents libModuleName testModuleName testCasesVarName
+
+                    putStrLn $ "Created package for sheet " ++ sheetNumber ++ "!"
         )
 
-cabalFileContents :: String -> String
-cabalFileContents sheetNumber = unlines [
+cabalFileContents :: String -> String -> String -> String
+cabalFileContents sheetNumber libModuleName testModuleName = unlines [
         "cabal-version: 3.6",
         "name: sheet" ++ sheetNumber,
         "version: 1.0.0",
@@ -45,40 +63,44 @@ cabalFileContents sheetNumber = unlines [
         "",
         "Library",
         "    hs-source-dirs: .",
-        "    Exposed-Modules: Sheet" ++ sheetNumber,
+        "    Exposed-Modules: " ++ libModuleName,
         "    Build-Depends: base >= 3",
         "",
         "Test-Suite sheet" ++ sheetNumber,
         "    type: exitcode-stdio-1.0",
         "    hs-source-dirs: ./tests",
         "    Main-is: Tests.hs",
-        "    Other-Modules:  TestSheet" ++ sheetNumber,
+        "    Other-Modules:  " ++ testModuleName,
         "    Build-Depends:  base >= 3,",
         "                    test-utils,",
         "                    sheet" ++ sheetNumber,
         ""
     ]
 
-mainFileContents :: String -> String
-mainFileContents sheetNumber = unlines [
-        "module Sheet" ++ sheetNumber ++ " where",
+libModuleContents :: String -> String
+libModuleContents libModuleName = unlines [
+        "module " ++ libModuleName ++ " where",
         ""
     ]
 
-testMainFileContents :: String -> String
-testMainFileContents sheetNumber = unlines [
+testMainFileContents :: String -> String -> String
+testMainFileContents testModuleName testCasesVarName = unlines [
         "import TestUtils (runTests)",
-        "import TestSheet" ++ sheetNumber ++ " (sheet" ++ sheetNumber ++ "TestCases)",
+        "import " ++ testModuleName ++ " (" ++ testCasesVarName ++ ")",
         "",
-        "main = runTests sheet" ++ sheetNumber ++ "TestCases",
+        "main = runTests " ++ testCasesVarName,
         ""
     ]
 
-testSheetFileContents :: String -> String
-testSheetFileContents sheetNumber = unlines [
-        "module TestSheet" ++ sheetNumber ++ " where",
-        "    import Sheet" ++ sheetNumber ++ " ()",
+testModuleContents :: String -> String -> String -> String
+testModuleContents libModuleName testModuleName testCasesVarName = unlines [
+        "module " ++ testModuleName ++ " where",
+        "    import " ++ libModuleName ++ " ()",
         "",
-        "    sheet" ++ sheetNumber ++ "TestCases = []",
+        "    " ++ testCasesVarName ++ " = []",
         ""
     ]
+
+lowerCamelCase :: String -> String
+lowerCamelCase [] = []
+lowerCamelCase (x:xs) = toLower x : xs
