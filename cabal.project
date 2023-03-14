@@ -1,2 +1,5 @@
-packages: sheet*/*.cabal, test-utils/*.cabal, scripts
+packages:   sheet*/*.cabal,
+            tutorial*/*.cabal,
+            test-utils/*.cabal,
+            scripts/*.cabal
 tests: True

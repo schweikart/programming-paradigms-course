@@ -4,6 +4,6 @@ version: 1.0.0
 build-type: Simple
 
 Executable scripts
-    Main-is: CreateSheetPackage.hs
+    Main-is: CreatePackage.hs
     Build-Depends:  base >= 3,
                     directory

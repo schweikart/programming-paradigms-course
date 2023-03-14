@@ -8,28 +8,28 @@ import Data.Char (toLower)
 
 main :: IO ()
 main = do
-    putStrLn "Please enter the number of the sheet you want to create a package for:"
-    sheetNumber <- getLine
+    putStrLn "Please enter the name of the package you want to create (e.g., 'sheet04' or 'tutorial01'):"
+    packageName <- getLine
 
-    let sheetDirectoryPath = "./sheet" ++ sheetNumber
-    sheetDirectoryExists <- doesDirectoryExist sheetDirectoryPath
-    if sheetDirectoryExists
+    let packageDirectoryPath = "./" ++ packageName
+    packageDirectoryExists <- doesDirectoryExist packageDirectoryPath
+    if packageDirectoryExists
         then
-            putStrLn "Sheet directory already exists!"
+            putStrLn "Package directory already exists! Aborting"
         else (do
             putStrLn "Please enter the name of the *Library* module to create:"
             libModuleName <- getLine
             let testModuleName = "Test" ++ libModuleName
             let testCasesVarName = lowerCamelCase libModuleName ++ "TestCases"
-            let cabalFilePath = sheetDirectoryPath ++ "/sheet" ++ sheetNumber ++ ".cabal" 
-            let libModulePath = sheetDirectoryPath ++ "/" ++ libModuleName ++ ".hs"
-            let testDirectoryPath = sheetDirectoryPath ++ "/tests"
+            let cabalFilePath = packageDirectoryPath ++ "/" ++ packageName ++ ".cabal" 
+            let libModulePath = packageDirectoryPath ++ "/" ++ libModuleName ++ ".hs"
+            let testDirectoryPath = packageDirectoryPath ++ "/tests"
             let testMainFilePath = testDirectoryPath ++ "/Tests.hs"
             let testModulePath = testDirectoryPath ++ "/" ++ testModuleName ++ ".hs"
 
             putStrLn "The following files will be created:"
             putStrLn $ unlines $ map (" - " ++) [
-                    sheetDirectoryPath,
+                    packageDirectoryPath,
                     cabalFilePath,
                     libModulePath,
                     testDirectoryPath,
@@ -43,21 +43,21 @@ main = do
                 then
                     putStrLn "Aborting"
                 else do
-                    createDirectory sheetDirectoryPath
-                    writeFile cabalFilePath $ cabalFileContents sheetNumber libModuleName testModuleName
+                    createDirectory packageDirectoryPath
+                    writeFile cabalFilePath $ cabalFileContents packageName libModuleName testModuleName
                     writeFile libModulePath $ libModuleContents libModuleName
 
                     createDirectory testDirectoryPath
                     writeFile testMainFilePath $ testMainFileContents testModuleName testCasesVarName
                     writeFile testModulePath $ testModuleContents libModuleName testModuleName testCasesVarName
 
-                    putStrLn $ "Created package for sheet " ++ sheetNumber ++ "!"
+                    putStrLn $ "Created package " ++ packageName ++ "!"
         )
 
 cabalFileContents :: String -> String -> String -> String
-cabalFileContents sheetNumber libModuleName testModuleName = unlines [
+cabalFileContents packageName libModuleName testModuleName = unlines [
         "cabal-version: 3.6",
-        "name: sheet" ++ sheetNumber,
+        "name: " ++ packageName,
         "version: 1.0.0",
         "build-type: Simple",
         "",
@@ -66,14 +66,14 @@ cabalFileContents sheetNumber libModuleName testModuleName = unlines [
         "    Exposed-Modules: " ++ libModuleName,
         "    Build-Depends: base >= 3",
         "",
-        "Test-Suite sheet" ++ sheetNumber,
+        "Test-Suite " ++ packageName,
         "    type: exitcode-stdio-1.0",
         "    hs-source-dirs: ./tests",
         "    Main-is: Tests.hs",
         "    Other-Modules:  " ++ testModuleName,
         "    Build-Depends:  base >= 3,",
         "                    test-utils,",
-        "                    sheet" ++ sheetNumber,
+        "                    " ++ packageName,
         ""
     ]
 
