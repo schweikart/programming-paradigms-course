@@ -1,5 +1,5 @@
 module TestRunLengthEncoding (runLengthEncodingTestCases) where
-    import RunLengthEncoding (splitWhen, group)
+    import RunLengthEncoding (splitWhen, group, encode)
     import TestUtils (testEq)
     
     splitWhenTests = [
@@ -13,4 +13,9 @@ module TestRunLengthEncoding (runLengthEncodingTestCases) where
             testEq "group \"aaabbacccc\" == [\"aaa\", \"bb\", \"a\", \"cccc\"]" ["aaa", "bb", "a", "cccc"] $ group "aaabbacccc"
         ]
 
-    runLengthEncodingTestCases = splitWhenTests ++ groupTests
+    encodeTests = [
+            testEq "encode [1,1,2,1,3,3,3] == [(1,2), (2,1), (1,1), (3,3)]" [(1,2), (2,1), (1,1), (3,3)] $ encode [1,1,2,1,3,3,3],
+            testEq "encode \"aaabbacccc\" == [('a',3), ('b',2), ('a',1), ('c',4)]" [('a',3), ('b',2), ('a',1), ('c',4)] $ encode "aaabbacccc"
+        ]
+
+    runLengthEncodingTestCases = splitWhenTests ++ groupTests ++ encodeTests
