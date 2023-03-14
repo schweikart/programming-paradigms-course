@@ -6,7 +6,8 @@ build-type: Simple
 Library
     hs-source-dirs: .
     Exposed-Modules:    CharCounter,
-                        Exam
+                        Exam,
+                        Euklid
     Build-Depends: base >= 3
 
 Test-Suite tutorial01
@@ -14,7 +15,8 @@ Test-Suite tutorial01
     hs-source-dirs: ./tests
     Main-is: Tests.hs
     Other-Modules:  TestCharCounter,
-                    TestExam
+                    TestExam,
+                    TestEuklid
     Build-Depends:  base >= 3,
                     test-utils,
                     tutorial01
