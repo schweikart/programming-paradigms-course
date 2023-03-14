@@ -5,14 +5,16 @@ build-type: Simple
 
 Library
     hs-source-dirs: .
-    Exposed-Modules: CharCounter
+    Exposed-Modules:    CharCounter,
+                        Exam
     Build-Depends: base >= 3
 
 Test-Suite tutorial01
     type: exitcode-stdio-1.0
     hs-source-dirs: ./tests
     Main-is: Tests.hs
-    Other-Modules:  TestCharCounter
+    Other-Modules:  TestCharCounter,
+                    TestExam
     Build-Depends:  base >= 3,
                     test-utils,
                     tutorial01
