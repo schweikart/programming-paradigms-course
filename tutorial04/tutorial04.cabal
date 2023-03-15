@@ -1,0 +1,19 @@
+cabal-version: 3.6
+name: tutorial04
+version: 1.0.0
+build-type: Simple
+
+Library
+    hs-source-dirs: .
+    Exposed-Modules: Church
+    Build-Depends: base >= 3
+
+Test-Suite tutorial04
+    type: exitcode-stdio-1.0
+    hs-source-dirs: ./tests
+    Main-is: Tests.hs
+    Other-Modules:  TestChurch
+    Build-Depends:  base >= 3,
+                    test-utils,
+                    tutorial04
+
