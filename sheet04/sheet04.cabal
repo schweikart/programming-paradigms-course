@@ -5,14 +5,15 @@ build-type: Simple
 
 Library
     hs-source-dirs: .
-    Exposed-Modules: Ast
+    Exposed-Modules: Ast, Ropes
     Build-Depends: base >= 3
 
 Test-Suite sheet04
     type: exitcode-stdio-1.0
     hs-source-dirs: ./tests
     Main-is: Tests.hs
-    Other-Modules:  TestAst
+    Other-Modules:  TestAst,
+                    TestRopes
     Build-Depends:  base >= 3,
                     test-utils,
                     sheet04
