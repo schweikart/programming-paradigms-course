@@ -6,21 +6,12 @@ module Tree (Tree (Leaf, Node), bfs) where
     data Tree t =
         Leaf |
         Node (Tree t) t (Tree t)
-    
+
     -- breadth-first-search on a tree
     bfs :: Tree a -> [a]
     bfs tree = go (fromList [tree]) where
         go :: Queue (Tree a) -> [a]
         go queue = case dequeue queue of
-            Nothing         -> []
-            Just (t, rest)  -> treeContent t ++ go (enqueueChildren rest t)
-        
-        treeContent :: Tree t -> [t]
-        treeContent tree = case tree of
-            Leaf        -> []
-            Node _ e _  -> [e]
-
-        enqueueChildren :: Queue (Tree t) -> Tree t -> Queue (Tree t)
-        enqueueChildren queue tree = case tree of
-            Leaf                -> queue
-            Node left e right   -> enqueue right (enqueue left queue)
+            Nothing -> []
+            Just (Leaf, rest) -> go rest
+            Just (Node left x right, rest) -> x : go (enqueue right (enqueue left rest))
