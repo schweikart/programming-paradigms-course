@@ -5,14 +5,15 @@ build-type: Simple
 
 Library
     hs-source-dirs: .
-    Exposed-Modules: Queue
+    Exposed-Modules: Queue, Tree
     Build-Depends: base >= 3
 
 Test-Suite tutorial03
     type: exitcode-stdio-1.0
     hs-source-dirs: ./tests
     Main-is: Tests.hs
-    Other-Modules:  TestQueue
+    Other-Modules:  TestQueue,
+                    TestTree
     Build-Depends:  base >= 3,
                     test-utils,
                     tutorial03
