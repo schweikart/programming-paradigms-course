@@ -1,6 +1,6 @@
 module TestRopes where
     import TestUtils (testEq)
-    import Ropes (Rope(Inner, Leaf), ropeLength, ropeConcat, toList, ropeSplitAt)
+    import Ropes (Rope(Inner, Leaf), ropeLength, ropeConcat, toList, ropeSplitAt, ropeInsert)
     
     testRope = Inner (Leaf "Hello") 5
         (Inner (Leaf ", w") 3 (Leaf "orld!"))
@@ -24,5 +24,10 @@ module TestRopes where
             testEq "toList (snd (ropeSplitAt 6 testRope)) == \" world! \"" " world!" $ toList (snd (ropeSplitAt 6 testRope))
         ]
 
-    ropesTestCases = ropeLengthTests ++ toListTests ++ ropeConcatTests ++ ropeSplitAtTests
+    ropeInsertTest = [
+            testEq "toList (ropeInsert 6 testRope testRope) == \"Hello,Hello, world! world!\"" "Hello,Hello, world! world!" $ toList (ropeInsert 6 testRope testRope),
+            testEq "toList (ropeInsert 6 (fromList \" cruel\") testRope) == \"Hello, cruel world!" "Hello, cruel world!" $ toList (ropeInsert 6 (Leaf " cruel") testRope)
+        ]
+
+    ropesTestCases = ropeLengthTests ++ toListTests ++ ropeConcatTests ++ ropeSplitAtTests ++ ropeInsertTest
     

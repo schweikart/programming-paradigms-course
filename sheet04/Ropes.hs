@@ -1,4 +1,4 @@
-module Ropes (Rope (..), ropeLength, ropeConcat, toList, ropeSplitAt) where
+module Ropes (Rope (..), ropeLength, ropeConcat, toList, ropeSplitAt, ropeInsert) where
     data Rope a
         = Leaf [a] -- a fraction of the actual elements of the rope
         | Inner (Rope a) Int (Rope a) -- inner node, containing two children and a *weight*, the length
@@ -25,3 +25,8 @@ module Ropes (Rope (..), ropeLength, ropeConcat, toList, ropeSplitAt) where
             in (Inner left leftLen l, r)
         | leftLen >= i  = let (l,r) = ropeSplitAt i left
             in (l, Inner r (ropeLength r) right)
+
+    -- ropeInsert i a b inserts rope a into rope b at a index i
+    ropeInsert :: Int -> Rope a -> Rope a -> Rope a
+    ropeInsert i a b = Inner bl i (Inner a (ropeLength a) br)
+        where (bl, br) = ropeSplitAt i b
