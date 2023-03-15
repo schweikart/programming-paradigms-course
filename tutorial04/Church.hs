@@ -1,5 +1,6 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Redundant lambda" #-} -- makes church lists more readable
+{-# HLINT ignore "Avoid lambda" #-} -- makes church lists more readable
 
 module Church where
     -- Church lists are an abstract way of representing lists through functions
@@ -13,3 +14,7 @@ module Church where
     -- Converts a Haskell list to a Church list
     list2church :: [t] -> ChurchList t u
     list2church xs = \c n -> foldr c n xs
+
+    -- Map function for church lists
+    mapChurch :: (t -> s) -> ChurchList t u -> ChurchList s u
+    mapChurch f cl = \c n -> cl (\t u -> c (f t) u) n
