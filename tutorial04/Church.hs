@@ -18,3 +18,7 @@ module Church where
     -- Map function for church lists
     mapChurch :: (t -> s) -> ChurchList t u -> ChurchList s u
     mapChurch f cl = \c n -> cl (\t u -> c (f t) u) n
+
+    -- Concatenates two given church functions to a third one
+    concatChurch :: ChurchList t u -> ChurchList t u -> ChurchList t u
+    concatChurch xs ys = \c n -> xs c (ys c n)
