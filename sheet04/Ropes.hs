@@ -7,3 +7,7 @@ module Ropes where
     ropeLength :: Rope a -> Int
     ropeLength (Leaf list) = length list
     ropeLength (Inner _ leftLen right) = leftLen + ropeLength right
+
+    -- concatenates two ropes
+    ropeConcat :: Rope a -> Rope a -> Rope a
+    ropeConcat ropeA = Inner ropeA (ropeLength ropeA)
