@@ -1,4 +1,4 @@
-module Ropes (Rope (..), ropeLength, ropeConcat, toList) where
+module Ropes (Rope (..), ropeLength, ropeConcat, toList, ropeSplitAt) where
     data Rope a
         = Leaf [a] -- a fraction of the actual elements of the rope
         | Inner (Rope a) Int (Rope a) -- inner node, containing two children and a *weight*, the length
@@ -17,11 +17,11 @@ module Ropes (Rope (..), ropeLength, ropeConcat, toList) where
     toList (Leaf list) = list
     toList (Inner left _ right) = toList left ++ toList right
 
-    -- ???
+    -- splits a rope at a given index
     ropeSplitAt :: Int -> Rope a -> (Rope a, Rope a)
     ropeSplitAt i (Leaf list)                   = (Leaf (take i list), Leaf (drop i list))
     ropeSplitAt i (Inner left leftLen right)
         | leftLen < i   = let (l,r) = ropeSplitAt (i - leftLen) right
             in (Inner left leftLen l, r)
         | leftLen >= i  = let (l,r) = ropeSplitAt i left
-            in (left, Inner r (ropeLength r) right)
+            in (l, Inner r (ropeLength r) right)
