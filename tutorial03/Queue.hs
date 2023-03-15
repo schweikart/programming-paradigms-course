@@ -4,6 +4,10 @@ module Queue (Queue (Q), fromList, toList) where
     data Queue a = Q [a] [a]
         deriving Show
     
+    -- Define equality opeations for queue
+    instance Eq t => Eq (Queue t) where
+        q1 == q2 = toList q1 == toList q2
+    
     -- Create a queue from a given list
     fromList :: [a] -> Queue a
     fromList list = Q list []
