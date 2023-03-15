@@ -1,4 +1,4 @@
-module Ropes (Rope (..), ropeLength, ropeConcat, toList, ropeSplitAt, ropeInsert) where
+module Ropes (Rope (..), ropeLength, ropeConcat, toList, ropeSplitAt, ropeInsert, ropeDelete) where
     data Rope a
         = Leaf [a] -- a fraction of the actual elements of the rope
         | Inner (Rope a) Int (Rope a) -- inner node, containing two children and a *weight*, the length
@@ -30,3 +30,9 @@ module Ropes (Rope (..), ropeLength, ropeConcat, toList, ropeSplitAt, ropeInsert
     ropeInsert :: Int -> Rope a -> Rope a -> Rope a
     ropeInsert i a b = Inner bl i (Inner a (ropeLength a) br)
         where (bl, br) = ropeSplitAt i b
+
+    -- ropeDelete i j rope removes the i-th - (j-1)-th element from rope
+    ropeDelete :: Int -> Int -> Rope a -> Rope a
+    ropeDelete i j rope = ropeConcat beforeI fromJ where
+        (beforeJ, fromJ) = ropeSplitAt j rope
+        (beforeI, fromItoJ) = ropeSplitAt i beforeJ
