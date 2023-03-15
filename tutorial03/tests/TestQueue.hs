@@ -15,5 +15,8 @@ module TestQueue where
             testEq "toList (fromList []) == []" [] $ toList (fromList ([] :: [Int])),
             testEq "toList (fromList [1..10]) == [1..10]" [] $ toList (fromList ([] :: [Int]))
         ]
+    
+    enqueueTests = [] -- TODO: implement after implementing Eq
+    dequeueTests = [] -- TODO: implement after implementing Eq
 
     queueTestCases = fromListTests ++ toListTests ++ fromToListRoundtripTests
