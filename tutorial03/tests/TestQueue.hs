@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
-{-# HLINT ignore "Use ==" #-} -- for testing /=
-module TestQueue where
+{-# HLINT ignore "Use ==" #-} -- for testing "/=""
+module TestQueue (queueTestCases) where
     import Queue (Queue (Q), fromList, toList, enqueue, dequeue)
     import TestUtils (testEq, testBool)
 
