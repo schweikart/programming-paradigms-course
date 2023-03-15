@@ -1,4 +1,4 @@
-module Queue (Queue (Q), fromList, toList) where
+module Queue (Queue (Q), fromList, toList, enqueue, dequeue) where
     -- A queue "Q front back" represents data of the form
     -- "from ++ reverse back".
     data Queue a = Q [a] [a]
