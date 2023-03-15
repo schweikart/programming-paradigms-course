@@ -15,4 +15,9 @@ module TestRopes where
             testEq "toList restRope == \"Hello, world\"" "Hello, world!" $ toList testRope
         ]
 
-    ropesTestCases = ropeLengthTests ++ toListTests
+    ropeConcatTests = [
+            testEq "toList (ropeConcat testRope testRope) == (toList testRope ++ toList testRope)" (toList testRope ++ toList testRope) $ toList (ropeConcat testRope testRope)
+        ]
+
+    ropesTestCases = ropeLengthTests ++ toListTests ++ ropeConcatTests
+    

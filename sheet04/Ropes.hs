@@ -16,3 +16,12 @@ module Ropes (Rope (..), ropeLength, ropeConcat, toList) where
     toList :: Rope a -> [a]
     toList (Leaf list) = list
     toList (Inner left _ right) = toList left ++ toList right
+
+    -- ???
+    ropeSplitAt :: Int -> Rope a -> (Rope a, Rope a)
+    ropeSplitAt i (Leaf list)                   = (Leaf (take i list), Leaf (drop i list))
+    ropeSplitAt i (Inner left leftLen right)
+        | leftLen < i   = let (l,r) = ropeSplitAt (i - leftLen) right
+            in (Inner left leftLen l, r)
+        | leftLen >= i  = let (l,r) = ropeSplitAt i left
+            in (left, Inner r (ropeLength r) right)
