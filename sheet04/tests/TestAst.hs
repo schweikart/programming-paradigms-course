@@ -61,9 +61,9 @@ module TestAst where
             testEq "show 1 and 1" "(1 && 1)" $ show (And (Const 1) (Const 1) :: Exp Int),
 
             -- not
-            testEq "show not 0" 1 $ eval a1b2c3 (Not (Const 0)),
-            testEq "show not 1" 0 $ eval a1b2c3 (Not (Const 1)),
-            testEq "show not 2" 0 $ eval a1b2c3 (Not (Const 2)),
+            testEq "show not 0" "!0" $ show (Not (Const 0) :: Exp Int),
+            testEq "show not 1" "!1" $ show (Not (Const 1) :: Exp Int),
+            testEq "show not 2" "!2" $ show (Not (Const 2) :: Exp Int),
 
             -- combinations
             testEq "show a + b + c" "('a' + ('b' + 'c'))" $ show (Sum (Var 'a') (Sum (Var 'b') (Var 'c'))),
