@@ -23,3 +23,11 @@ module Ast (Exp (..), Env, eval) where
     -- checks if an integer is true-ish, i.e., it is something other than zero 
     trueish :: Integer -> Bool
     trueish = (/= 0)
+
+    instance Show t => Show (Exp t) where
+        show (Var t) = show t
+        show (Const c) = show c
+        show (Sum t1 t2) = "(" ++ show t1 ++ " + " ++ show t2 ++ ")"
+        show (Less t1 t2)   = "(" ++ show t1 ++ " < " ++ show t2 ++ ")"
+        show (And t1 t2)    = "(" ++ show t1 ++ " && " ++ show t2 ++ ")"
+        show (Not t)        = "!" ++ show t
