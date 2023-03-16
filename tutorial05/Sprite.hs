@@ -1,4 +1,4 @@
-module Sprite (Sprite(..), Color(..), isActiveAt, translate, eval, replaceColor) where
+module Sprite (Sprite(..), Color(..), isActiveAt, translate, eval, replaceColor, render) where
     -- A (Sprite f x_min x_max y_min y_max) is a rasterized image described
     -- through a pixel map f.
     data Sprite = Sprite (Int -> Int -> Color) Int Int Int Int
@@ -34,3 +34,13 @@ module Sprite (Sprite(..), Color(..), isActiveAt, translate, eval, replaceColor)
     replaceColor :: Sprite -> Color -> Color -> Sprite
     replaceColor (Sprite f xmin xmax ymin ymax) c1 c2 = Sprite f' xmin xmax ymin ymax
         where f' x y = let orig = f x y in if orig == c1 then c2 else orig
+
+    -- Renders a sprite onto a canvas of the given size (width, height) with the
+    -- given background color.
+    -- The resulting color array is a list of lines.
+    render :: Int -> Int -> Color -> Sprite -> [[Color]]
+    render width height background sprite = [
+                [renderPixel x y | x <- [0..(width-1)]]
+            | y <- [0..(height-1)]]
+        where renderPixel x y = let orig = eval sprite x y in if orig == None then background else orig
+    

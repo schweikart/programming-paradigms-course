@@ -1,23 +1,28 @@
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use head" #-} -- to access pixels coherently
 module TestSprite where
-    import Sprite (Sprite (Sprite), Color (Black, Blue, None, Red), isActiveAt, translate, eval, replaceColor)
+    import Sprite (Sprite (Sprite), Color (Black, Blue, None, Red), isActiveAt, translate, eval, replaceColor, render)
     import TestUtils (testBool, testEq)
 
     testSprite :: Sprite
     testSprite = Sprite f (-3) 2 5 9
         where f x y = if even (x + y) then Blue else Black
-    
+
     onePixelSprite :: Sprite
     onePixelSprite = Sprite f 0 0 0 0 where
         f 0 0 = Black
         f x y = None
-    
+
+    onePixelSpriteRender :: [[Color]]
+    onePixelSpriteRender = render 5 10 Red onePixelSprite
+
     getMap (Sprite map _ _ _ _) = map
     getXmin (Sprite _ xmin _ _ _) = xmin
     getXmax (Sprite _ _ xmax _ _) = xmax
     getYmin (Sprite _ _ _ ymin _) = ymin
     getYmax (Sprite _ _ _ _ ymax) = ymax
 
-    
+
     isActiveAtTests = [
             testBool "testSprite is inactive at (0,0)" $ not $ isActiveAt 0 0 testSprite,
             testBool "testSprite is active at (0,7)" $ isActiveAt 0 7 testSprite,
@@ -25,7 +30,7 @@ module TestSprite where
             testBool "testSprite is inactive at (3,7)" $ not $ isActiveAt 3 7 testSprite,
             testBool "testSprite is inactive at (10,10)" $ not $ isActiveAt 10 10 testSprite
         ]
-    
+
     translateTests = [
             testEq "getXmin (translate 10 20 onePixelSprite) == 10" 10 $ getXmin $ translate 10 20 onePixelSprite,
             testEq "getXmax (translate 10 20 onePixelSprite) == 10" 10 $ getXmax $ translate 10 20 onePixelSprite,
@@ -34,7 +39,7 @@ module TestSprite where
             testEq "getMap (translate 10 20 onePixelSprite) 0 0 == None" None $ getMap (translate 10 20 onePixelSprite) 0 0,
             testEq "getMap (translate 10 20 onePixelSprite) 10 20 == Black" Black $ getMap (translate 10 20 onePixelSprite) 10 20
         ]
-    
+
     evalTests = [
             testEq "onePixelSprite is black at (0,0)" Black $ eval onePixelSprite 0 0,
             testEq "onePixelSprite is none at (0,-1)" None $ eval onePixelSprite 0 (-1),
@@ -42,10 +47,22 @@ module TestSprite where
             testEq "onePixelSprite is none at (-1,0)" None $ eval onePixelSprite (-1) 0,
             testEq "onePixelSprite is none at (1,0)" None $ eval onePixelSprite 1 0
         ]
-    
+
     replaceColorTests = [
             testEq "test replacing occurring color" Blue $ eval (replaceColor onePixelSprite Black Blue) 0 0,
             testEq "test replacing non-occurring color" Black $ eval (replaceColor onePixelSprite Red Blue) 0 0
         ]
 
-    spriteTestCases = isActiveAtTests ++ translateTests ++ evalTests ++ replaceColorTests
+    renderTests = [
+            testEq "render uses pixel color if not none" Black $ onePixelSpriteRender !! 0 !! 0,
+            testEq "render uses background color if not none" Red $ onePixelSpriteRender !! 1 !! 0,
+            testEq "render creates a canvas of the requested width" 5 $ length (head onePixelSpriteRender),
+            testEq "render creates a canvas of the requested height" 10 $ length onePixelSpriteRender
+        ]
+
+    spriteTestCases =
+        isActiveAtTests ++
+        translateTests ++
+        evalTests ++
+        replaceColorTests ++
+        renderTests
