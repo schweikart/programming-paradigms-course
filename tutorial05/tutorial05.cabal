@@ -1,0 +1,19 @@
+cabal-version: 3.6
+name: tutorial05
+version: 1.0.0
+build-type: Simple
+
+Library
+    hs-source-dirs: .
+    Exposed-Modules: Sprite
+    Build-Depends: base >= 3
+
+Test-Suite tutorial05
+    type: exitcode-stdio-1.0
+    hs-source-dirs: ./tests
+    Main-is: Tests.hs
+    Other-Modules:  TestSprite
+    Build-Depends:  base >= 3,
+                    test-utils,
+                    tutorial05
+
