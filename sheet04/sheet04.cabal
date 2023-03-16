@@ -3,6 +3,12 @@ name: sheet04
 version: 1.0.0
 build-type: Simple
 
+Executable rope-editor
+    hs-source-dirs: .
+    Main-is: RopeEditor.hs
+    Other-Modules:  Ropes
+    Build-Depends:  base >= 3
+
 Library
     hs-source-dirs: .
     Exposed-Modules: Ast, Ropes
