@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
-module ChurchNumbers (Church, int2church, church2int) where
+module ChurchNumbers (Church, int2church, church2int, cSucc) where
     -- Church numbers represent natural numbers as functions in the lambda
     -- calculus.
     type Church t = (t -> t) -> t -> t
@@ -9,8 +9,12 @@ module ChurchNumbers (Church, int2church, church2int) where
     int2church i
         | i == 0    = \s n -> n
         | i < 0     = error "cannot represent negative numbers as church numbers"
-        | i > 0     = \s n -> s (int2church (i-1) s n) 
+        | i > 0     = \s n -> s (int2church (i-1) s n)
 
     -- converts a church number to an integer
     church2int :: Church Integer -> Integer
     church2int iChurch = iChurch (+1) 0
+
+    -- Computes the successor of a given church number
+    cSucc :: Church t -> Church t
+    cSucc c s z = s (c s z)

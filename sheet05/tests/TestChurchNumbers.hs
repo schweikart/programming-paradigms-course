@@ -1,5 +1,5 @@
 module TestChurchNumbers where
-    import ChurchNumbers (church2int, int2church)
+    import ChurchNumbers (church2int, int2church, cSucc)
     import TestUtils (testEq, testThrows)
 
     conversionRoundtripTests = [
@@ -21,5 +21,10 @@ module TestChurchNumbers where
             testEq "int2church 69 (\\x -> x - 1) 420 == 420 - 69" (420 - 69) $ int2church 69 (\x -> x - 1) 420,
             testEq "int2church 100 (+1) 0 == 100" 100 $ int2church 100 (+1) 0
         ]
+    
+    cSuccTests = [
+            testEq "church2int (cSucc (int2Church 0)) == 1" 1 $ church2int (cSucc (int2church 0)),
+            testEq "church2int (cSucc (int2Church 42)) == 43" 43 $ church2int (cSucc (int2church 42))
+        ]
 
-    churchNumbersTestCases = conversionRoundtripTests ++ church2intTests ++ int2churchTests
+    churchNumbersTestCases = conversionRoundtripTests ++ church2intTests ++ int2churchTests ++ cSuccTests
