@@ -1,4 +1,4 @@
-module Sprite (Sprite(..), Color(..), isActiveAt, translate) where
+module Sprite (Sprite(..), Color(..), isActiveAt, translate, eval) where
     -- A (Sprite f x_min x_max y_min y_max) is a rasterized image described
     -- through a pixel map f.
     data Sprite = Sprite (Int -> Int -> Color) Int Int Int Int
@@ -22,3 +22,9 @@ module Sprite (Sprite(..), Color(..), isActiveAt, translate) where
         xmax' = xmax + dx
         ymin' = ymin + dy
         ymax' = ymax + dy
+    
+
+    -- Finds the color of the given sprite at the given coordinates.
+    -- Doesn't check whether the sprite is active.
+    eval :: Sprite -> Int -> Int -> Color
+    eval (Sprite f _ _ _ _) = f

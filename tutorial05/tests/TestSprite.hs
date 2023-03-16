@@ -1,5 +1,5 @@
 module TestSprite where
-    import Sprite (Sprite (Sprite), Color (Black, Blue, None), isActiveAt, translate)
+    import Sprite (Sprite (Sprite), Color (Black, Blue, None), isActiveAt, translate, eval)
     import TestUtils (testBool, testEq)
 
     testSprite :: Sprite
@@ -34,5 +34,13 @@ module TestSprite where
             testEq "getMap (translate 10 20 onePixelSprite) 0 0 == None" None $ getMap (translate 10 20 onePixelSprite) 0 0,
             testEq "getMap (translate 10 20 onePixelSprite) 10 20 == Black" Black $ getMap (translate 10 20 onePixelSprite) 10 20
         ]
+    
+    evalTests = [
+            testEq "onePixelSprite is black at (0,0)" Black $ eval onePixelSprite 0 0,
+            testEq "onePixelSprite is none at (0,-1)" None $ eval onePixelSprite 0 (-1),
+            testEq "onePixelSprite is none at (0,1)" None $ eval onePixelSprite 0 1,
+            testEq "onePixelSprite is none at (-1,0)" None $ eval onePixelSprite (-1) 0,
+            testEq "onePixelSprite is none at (1,0)" None $ eval onePixelSprite 1 0
+        ]
 
-    spriteTestCases = isActiveAtTests ++ translateTests
+    spriteTestCases = isActiveAtTests ++ translateTests ++ evalTests
