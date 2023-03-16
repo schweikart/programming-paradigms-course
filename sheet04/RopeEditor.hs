@@ -2,26 +2,27 @@ import Control.Monad (forever)
 import Ropes (Rope (Leaf), ropeInsert, ropeDelete, toList)
 
 main :: IO ()
-main = loop (Leaf [])
+main = loop [Leaf []]
 
--- read input, handle command, print output, repeat
-loop :: Rope String -> IO ()
-loop document = do
+-- simple text editor using a REPL environment
+loop :: [Rope String] -> IO ()
+loop documentHistory = do
     line <- getLine
-    let newDocument = runCommand document line
-    printDocument newDocument
-    loop newDocument
+    let newDocumentHistory = runCommand documentHistory line
+    printDocument $ head newDocumentHistory
+    loop newDocumentHistory
 
 -- parses a line numer string (1-based) into a line index (0-based)
 parseLineIndex :: String -> Int
 parseLineIndex lineNumberString = read lineNumberString - 1
 
 -- finds out which command provided and delegates its execution to the corresponding command handler function
-runCommand :: Rope String -> String -> Rope String
-runCommand document ('i':' ':rest) = inputCommand document rest
-runCommand document ('d':' ':rest) = deleteCommand document rest
-runCommand document ('c':' ':rest) = replaceCommand document rest
-runCommand document _ = document
+runCommand :: [Rope String] -> String -> [Rope String]
+runCommand documentHistory ('i':' ':rest)   = inputCommand (head documentHistory) rest : documentHistory
+runCommand documentHistory ('d':' ':rest)   = deleteCommand (head documentHistory) rest : documentHistory
+runCommand documentHistory ('c':' ':rest)   = replaceCommand (head documentHistory) rest : documentHistory
+runCommand documentHistory ('u':rest)       = undoCommand documentHistory
+runCommand documentHistory _ = documentHistory
 
 -- handles the "i line text" command which inserts a line of the given text at line (1-based)
 inputCommand :: Rope String -> String -> Rope String
@@ -41,6 +42,11 @@ replaceCommand document startStopAndText = ropeInsert start (Leaf [text]) $ rope
         [startString, stopString, text] = words startStopAndText
         start = parseLineIndex startString
         stop = parseLineIndex stopString
+
+-- handles the "u" command which undoes the last command (if there was a last command)
+undoCommand :: [Rope String] -> [Rope String]
+undoCommand documentHistory@[onlyState] = documentHistory
+undoCommand documentHistory = tail documentHistory
 
 -- prints the whole document to stdout
 printDocument :: Rope String -> IO ()
