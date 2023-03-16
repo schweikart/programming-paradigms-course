@@ -1,10 +1,22 @@
 module TestSprite where
-    import Sprite (Sprite (Sprite), Color (Black, Blue), isActiveAt)
-    import TestUtils (testBool)
+    import Sprite (Sprite (Sprite), Color (Black, Blue, None), isActiveAt, translate)
+    import TestUtils (testBool, testEq)
 
     testSprite :: Sprite
     testSprite = Sprite f (-3) 2 5 9
         where f x y = if even (x + y) then Blue else Black
+    
+    onePixelSprite :: Sprite
+    onePixelSprite = Sprite f 0 0 0 0 where
+        f 0 0 = Black
+        f x y = None
+    
+    getMap (Sprite map _ _ _ _) = map
+    getXmin (Sprite _ xmin _ _ _) = xmin
+    getXmax (Sprite _ _ xmax _ _) = xmax
+    getYmin (Sprite _ _ _ ymin _) = ymin
+    getYmax (Sprite _ _ _ _ ymax) = ymax
+
     
     isActiveAtTests = [
             testBool "testSprite is inactive at (0,0)" $ not $ isActiveAt 0 0 testSprite,
@@ -13,5 +25,14 @@ module TestSprite where
             testBool "testSprite is inactive at (3,7)" $ not $ isActiveAt 3 7 testSprite,
             testBool "testSprite is inactive at (10,10)" $ not $ isActiveAt 10 10 testSprite
         ]
+    
+    translateTests = [
+            testEq "getXmin (translate 10 20 onePixelSprite) == 10" 10 $ getXmin $ translate 10 20 onePixelSprite,
+            testEq "getXmax (translate 10 20 onePixelSprite) == 10" 10 $ getXmax $ translate 10 20 onePixelSprite,
+            testEq "getYmin (translate 10 20 onePixelSprite) == 20" 20 $ getYmin $ translate 10 20 onePixelSprite,
+            testEq "getYmax (translate 10 20 onePixelSprite) == 20" 20 $ getYmax $ translate 10 20 onePixelSprite,
+            testEq "getMap (translate 10 20 onePixelSprite) 0 0 == None" None $ getMap (translate 10 20 onePixelSprite) 0 0,
+            testEq "getMap (translate 10 20 onePixelSprite) 10 20 == Black" Black $ getMap (translate 10 20 onePixelSprite) 10 20
+        ]
 
-    spriteTestCases = isActiveAtTests
+    spriteTestCases = isActiveAtTests ++ translateTests
