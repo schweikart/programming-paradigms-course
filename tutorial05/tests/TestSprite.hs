@@ -1,5 +1,5 @@
 module TestSprite where
-    import Sprite (Sprite (Sprite), Color (Black, Blue, None), isActiveAt, translate, eval)
+    import Sprite (Sprite (Sprite), Color (Black, Blue, None, Red), isActiveAt, translate, eval, replaceColor)
     import TestUtils (testBool, testEq)
 
     testSprite :: Sprite
@@ -42,5 +42,10 @@ module TestSprite where
             testEq "onePixelSprite is none at (-1,0)" None $ eval onePixelSprite (-1) 0,
             testEq "onePixelSprite is none at (1,0)" None $ eval onePixelSprite 1 0
         ]
+    
+    replaceColorTests = [
+            testEq "test replacing occurring color" Blue $ eval (replaceColor onePixelSprite Black Blue) 0 0,
+            testEq "test replacing non-occurring color" Black $ eval (replaceColor onePixelSprite Red Blue) 0 0
+        ]
 
-    spriteTestCases = isActiveAtTests ++ translateTests ++ evalTests
+    spriteTestCases = isActiveAtTests ++ translateTests ++ evalTests ++ replaceColorTests

@@ -1,4 +1,4 @@
-module Sprite (Sprite(..), Color(..), isActiveAt, translate, eval) where
+module Sprite (Sprite(..), Color(..), isActiveAt, translate, eval, replaceColor) where
     -- A (Sprite f x_min x_max y_min y_max) is a rasterized image described
     -- through a pixel map f.
     data Sprite = Sprite (Int -> Int -> Color) Int Int Int Int
@@ -28,3 +28,9 @@ module Sprite (Sprite(..), Color(..), isActiveAt, translate, eval) where
     -- Doesn't check whether the sprite is active.
     eval :: Sprite -> Int -> Int -> Color
     eval (Sprite f _ _ _ _) = f
+
+    -- replaceColor sprite c1 c2 returns a copy of sprite where all occurrences
+    -- of the color c1 were replaced with color c2 
+    replaceColor :: Sprite -> Color -> Color -> Sprite
+    replaceColor (Sprite f xmin xmax ymin ymax) c1 c2 = Sprite f' xmin xmax ymin ymax
+        where f' x y = let orig = f x y in if orig == c1 then c2 else orig
