@@ -1,5 +1,5 @@
 import TestUtils (runTests)
 import TestChurchNumbers (churchNumbersTestCases)
+import TestChurchPair (churchPairTestCases)
 
-main = runTests churchNumbersTestCases
-
+main = runTests $ churchNumbersTestCases ++ churchPairTestCases

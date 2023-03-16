@@ -5,7 +5,7 @@ build-type: Simple
 
 Library
     hs-source-dirs: .
-    Exposed-Modules: ChurchNumbers
+    Exposed-Modules: ChurchNumbers, ChurchPair
     Build-Depends: base >= 3
 
 Test-Suite sheet05
@@ -13,6 +13,7 @@ Test-Suite sheet05
     hs-source-dirs: ./tests
     Main-is: Tests.hs
     Other-Modules:  TestChurchNumbers
+                    TestChurchPair
     Build-Depends:  base >= 3,
                     test-utils,
                     sheet05
