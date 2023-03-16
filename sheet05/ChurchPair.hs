@@ -3,8 +3,8 @@
 {-# HLINT ignore "Redundant lambda" #-}
 {-# HLINT ignore "Use const" #-}
 
-module ChurchPair (cPair, cFst, cSnd) where
-    import ChurchNumbers (Church, int2church)
+module ChurchPair (cPair, cFst, cSnd, cNext) where
+    import ChurchNumbers (Church, int2church, cSucc)
 
     -- A church pair is a tuple in the lambda calculus
     type ChurchPair a b c = (a -> b -> c) -> c 
@@ -20,3 +20,9 @@ module ChurchPair (cPair, cFst, cSnd) where
     -- snd function for church pairs
     cSnd :: ChurchPair a b b -> b
     cSnd p = p (\a b -> b)
+
+    -- for a given church pair of church numbers (n, m), this function
+    -- returns (m, m+1), another church pair of church numbers
+    cNext :: ChurchPair a (Church t) (Church t) -> ChurchPair (Church t) (Church t) c
+    cNext p = cPair m (cSucc m) where
+        m = cSnd p

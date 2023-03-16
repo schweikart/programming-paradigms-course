@@ -1,6 +1,6 @@
 module TestChurchPair (churchPairTestCases) where
     import TestUtils (testEq)
-    import ChurchPair (cPair, cFst, cSnd)
+    import ChurchPair (cPair, cFst, cSnd, cNext)
     import ChurchNumbers (church2int, int2church)
     
     pairTests = [
@@ -17,5 +17,16 @@ module TestChurchPair (churchPairTestCases) where
             testEq "cSnd (cPair 1 2) == 2" 2 $ cSnd (cPair 1 2),
             testEq "cSnd (cPair c3 c5) == c5" 5 $ church2int (cSnd (cPair (int2church 3) (int2church 5)))
         ]
+    
+    nextTests = [
+            testEq "cFst (cNext (cPair c0 c0)) == c0" 0 $ church2int (cFst (cNext (cPair (int2church 0) (int2church 0)))),
+            testEq "cFst (cNext (cPair c1 c1)) == c1" 1 $ church2int (cFst (cNext (cPair (int2church 1) (int2church 1)))),
 
-    churchPairTestCases = pairTests ++ fstTests ++ sndTests
+            testEq "cFst (cNext (cPair c0 c15)) == c15" 15 $ church2int (cFst (cNext (cPair (int2church 0) (int2church 15)))),
+            testEq "cSnd (cNext (cPair c0 c15)) == c16" 16 $ church2int (cSnd (cNext (cPair (int2church 0) (int2church 15)))),
+
+            testEq "cFst (cNext (cPair c69 c420)) == c420" 420 $ church2int (cFst (cNext (cPair (int2church 69) (int2church 420)))),
+            testEq "cSnd (cNext (cPair c69 c420)) == c421" 421 $ church2int (cSnd (cNext (cPair (int2church 69) (int2church 420))))
+        ]
+
+    churchPairTestCases = pairTests ++ fstTests ++ sndTests ++ nextTests
