@@ -3,7 +3,7 @@
 {-# HLINT ignore "Redundant lambda" #-}
 {-# HLINT ignore "Use const" #-}
 
-module ChurchPair (cPair, cFst, cSnd, cNext, cPred) where
+module ChurchPair (cPair, cFst, cSnd, cNext, cPred, cSub) where
     import ChurchNumbers (Church, int2church, cSucc)
 
     -- A church pair is a tuple in the lambda calculus
@@ -28,3 +28,6 @@ module ChurchPair (cPair, cFst, cSnd, cNext, cPred) where
         m = cSnd p
 
     cPred = \n -> cFst (n cNext (cPair (int2church 0) (int2church 0)))
+
+    cSub :: Enum t => Church t -> Church t -> Church t
+    cSub a b = \s z -> b pred (a s z)

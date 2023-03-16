@@ -1,6 +1,6 @@
 module TestChurchPair (churchPairTestCases) where
     import TestUtils (testEq)
-    import ChurchPair (cPair, cFst, cSnd, cNext, cPred)
+    import ChurchPair (cPair, cFst, cSnd, cNext, cPred, cSub)
     import ChurchNumbers (church2int, int2church)
     
     pairTests = [
@@ -33,5 +33,9 @@ module TestChurchPair (churchPairTestCases) where
             testEq "church2int (cPred (int2church 1))" 0 $ church2int (cPred (int2church 1)),
             testEq "church2int (cPred (int2church 420))" 419 $ church2int (cPred (int2church 420))
         ]
+    
+    subTest = [
+            testEq "church2int (cSub (int2church 420) (int2church 69)) == 420 - 69" (420 - 69) $ church2int (cSub (int2church 420) (int2church 69))
+        ]
 
-    churchPairTestCases = pairTests ++ fstTests ++ sndTests ++ nextTests ++ predTest
+    churchPairTestCases = pairTests ++ fstTests ++ sndTests ++ nextTests ++ predTest ++ subTest
