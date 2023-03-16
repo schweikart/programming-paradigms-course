@@ -1,5 +1,5 @@
 module TestAst where
-    import Ast (Env, eval, Exp (Sum, Var, Const, Less, And, Not))
+    import Ast (Env, eval, Exp (Sum, Var, Const, Less, And, Not, If))
     import TestUtils (testEq)
 
     a1b2c3 :: Env Char
@@ -33,12 +33,35 @@ module TestAst where
             testEq "not 1 with a=1,b=2,c=3" 0 $ eval a1b2c3 (Not (Const 1)),
             testEq "not 2 with a=1,b=2,c=3" 0 $ eval a1b2c3 (Not (Const 2)),
 
+            -- if-then-else
+            testEq "if 0 then 69 else 420 with a=1,b=2,c=3" 420 $ eval a1b2c3 (If (Const 0) (Const 69) (Const 420)),
+            testEq "if 1 then 69 else 420 with a=1,b=2,c=3" 69 $ eval a1b2c3 (If (Const 1) (Const 69) (Const 420)),
+
             -- combinations
             testEq "a + b + c == 6 with a=1,b=2,c=3" 6 $ eval a1b2c3 (Sum (Var 'a') (Sum (Var 'b') (Var 'c'))),
             testEq "a + 10 + c == 14 with a=1,b=2,c=3" 14 $ eval a1b2c3 (Sum (Var 'a') (Sum (Const 10) (Var 'c'))),
-            testEq "(a < (a + 10)) and (not b) == 6 with a=1,b=2,c=3" 0 $ eval a1b2c3 (And (Less (Var 'a') (Sum (Var 'a') (Const 10))) (Not (Var 'b')))
+            testEq "(a < (a + 10)) and (not b) == 6 with a=1,b=2,c=3" 0 $ eval a1b2c3 (And (Less (Var 'a') (Sum (Var 'a') (Const 10))) (Not (Var 'b'))),
+            testEq "if ((a < (a + 10)) and (not b)) then b else (a < c) == 6 with a=1,b=2,c=3" 1 $ eval a1b2c3
+                (If
+                    (And
+                        (Less
+                            (Var 'a')
+                            (Sum
+                                (Var 'a')
+                                (Const 10)
+                            )
+                        )
+                        (Not
+                            (Var 'b')
+                        )
+                    )
+                    (Var 'b')
+                    (Less
+                        (Var 'a')
+                        (Var 'c')
+                    )
+                )
         ]
-
     showTests = [
             -- var
             testEq "show for a" "'a'" $ show (Var 'a'),
@@ -65,10 +88,34 @@ module TestAst where
             testEq "show not 1" "!1" $ show (Not (Const 1) :: Exp Int),
             testEq "show not 2" "!2" $ show (Not (Const 2) :: Exp Int),
 
+            -- if-then-else
+            testEq "show if 0 then 69 else 420" "(if 0 then 69 else 420)" $ show (If (Const 0) (Const 69) (Const 420) :: Exp Int),
+            testEq "show if 1 then 69 else 420" "(if 1 then 69 else 420)" $ show (If (Const 1) (Const 69) (Const 420) :: Exp Int),
+
             -- combinations
             testEq "show a + b + c" "('a' + ('b' + 'c'))" $ show (Sum (Var 'a') (Sum (Var 'b') (Var 'c'))),
             testEq "show a + 10 + c" "('a' + (10 + 'c'))" $ show (Sum (Var 'a') (Sum (Const 10) (Var 'c'))),
-            testEq "show (a < (a + 10)) and (not b)" "(('a' < ('a' + 10)) && !'b')" $ show (And (Less (Var 'a') (Sum (Var 'a') (Const 10))) (Not (Var 'b')))
+            testEq "show (a < (a + 10)) and (not b)" "(('a' < ('a' + 10)) && !'b')" $ show (And (Less (Var 'a') (Sum (Var 'a') (Const 10))) (Not (Var 'b'))),
+            testEq "show if ((a < (a + 10)) and (not b)) then b else (a < c)" "(if (('a' < ('a' + 10)) && !'b') then 'b' else ('a' < 'c'))" $ show
+                (If
+                    (And
+                        (Less
+                            (Var 'a')
+                            (Sum
+                                (Var 'a')
+                                (Const 10)
+                            )
+                        )
+                        (Not
+                            (Var 'b')
+                        )
+                    )
+                    (Var 'b')
+                    (Less
+                        (Var 'a')
+                        (Var 'c')
+                    )
+                )
         ]
 
     astTestCases = evalTests ++ showTests
