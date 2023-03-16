@@ -5,13 +5,13 @@ build-type: Simple
 
 Executable rope-editor
     hs-source-dirs: .
-    Main-is: RopeEditor.hs
-    Other-Modules:  Ropes
+    Main-is: RopeEditorMain.hs
+    Other-Modules:  Ropes, RopeEditor
     Build-Depends:  base >= 3
 
 Library
     hs-source-dirs: .
-    Exposed-Modules: Ast, Ropes
+    Exposed-Modules: Ast, Ropes, RopeEditor
     Build-Depends: base >= 3
 
 Test-Suite sheet04
@@ -19,7 +19,8 @@ Test-Suite sheet04
     hs-source-dirs: ./tests
     Main-is: Tests.hs
     Other-Modules:  TestAst,
-                    TestRopes
+                    TestRopes,
+                    TestRopeEditor
     Build-Depends:  base >= 3,
                     test-utils,
                     sheet04
