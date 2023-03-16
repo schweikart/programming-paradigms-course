@@ -3,7 +3,7 @@ name: scripts
 version: 1.0.0
 build-type: Simple
 
-Executable scripts
+Executable create-package
     Main-is: CreatePackage.hs
     Build-Depends:  base >= 3,
                     directory
