@@ -2,6 +2,7 @@
 *course at KIT taken in winter semester 2022 / 2023*
 
 ## Setup
+### **Haskell**
 Install the haskell toolchain using the following command from a non-elevated
 powershell ([source](https://www.haskell.org/ghcup/)).
 Ignore the suggestion to use chocolatey (see below for details) and make sure to
@@ -28,3 +29,24 @@ Some words about possible alternatives that I have considered too many times:
   (If you happen to uninstall it, remember to uninstall `ghc` and `cabal` too!)
 * The `haskell-language-server` chocolatey package is outdated and exempt from
   moderation by the chocolatey community.
+
+### **Prolog**
+A recent open source prolog build for Windows can be installed through
+chocolatey from an elevated shell:
+
+```shell
+choco install swi-prolog
+```
+
+### **VSCode Extensions**
+The following extensions can help with autocompletion, debugging tools and
+linting:
+
+* [Haskell](https://marketplace.visualstudio.com/items?itemName=haskell.haskell)
+  * You might need to configure this extension to find your haskell installation
+    but I'm not sure about that any more 
+* [Haskell Syntax Highlighting](https://marketplace.visualstudio.com/items?itemName=justusadam.language-haskell)
+* [VSC-Prolog](https://marketplace.visualstudio.com/items?itemName=arthurwang.vsc-prolog)
+  * After installing, make sure to configure the `prolog.executablePath` VSCode
+    setting.
+    Chocolatey will install the SWI-Prolog executable to `C:\Program Files\swipl\bin`.
