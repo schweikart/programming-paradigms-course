@@ -23,3 +23,14 @@ module CurryHowardCorrespondence where
     orE :: Or a b -> (a -> w) -> (b -> w) -> w
     orE (OrI1 a) ta _ = ta a
     orE (OrI2 b) _ tb = tb b
+
+    -- The mere fact that this function compiles (and is well-defined) proves
+    -- that "A and B" implies "B and A" for any logic formulae "A" and "B".
+    commutativeAnd :: And a b -> And b a
+    commutativeAnd (AndI a b) = AndI b a
+
+    -- Similarly, the following function proves that
+    -- "(A or B) and C" implies "(A and C) or (B and C)"
+    distributiveOrAnd :: And (Or a b) c -> Or (And a c) (And b c)
+    distributiveOrAnd (AndI (OrI1 a) c) = OrI1 (AndI a c)
+    distributiveOrAnd (AndI (OrI2 b) c) = OrI2 (AndI b c)
