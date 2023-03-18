@@ -1,3 +1,11 @@
+ -- for the declaration of False
+{-# LANGUAGE EmptyDataDecls #-}
+
+ -- for better readability of strange type logic terms
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Redundant lambda" #-}
+{-# HLINT ignore "Avoid lambda" #-}
+
 module CurryHowardCorrespondence where
     -- Data type capturing a logical "and" combination of two data types.
     -- Could also be expressed as a tuple.
@@ -17,7 +25,7 @@ module CurryHowardCorrespondence where
     data Or a b =
         OrI1 a |
         OrI2 b
-    
+
 
     -- needs two translator functions to create a common output type
     orE :: Or a b -> (a -> w) -> (b -> w) -> w
@@ -34,3 +42,31 @@ module CurryHowardCorrespondence where
     distributiveOrAnd :: And (Or a b) c -> Or (And a c) (And b c)
     distributiveOrAnd (AndI (OrI1 a) c) = OrI1 (AndI a c)
     distributiveOrAnd (AndI (OrI2 b) c) = OrI2 (AndI b c)
+
+    -- Define False as an unconstructable data type (allowed through language
+    -- extension).
+    data False
+
+    -- Define "Not a" as a function that maps to False if a type 
+    type Not a = a -> False
+
+    -- You know the drill:
+    -- The compilability of the following formula proves that
+    -- "A" implies "not not A"
+    notNot :: a -> Not (Not a)
+    --     :: a -> Not a -> False
+    --     :: a -> (a -> False) -> False
+    notNot a notA = notA a
+
+    -- prove "not (A and not A)"
+    noContradiction :: Not (And a (Not a))
+    --              :: (And a (Not a)) -> False
+    --              :: (And a (a -> False)) -> False
+    noContradiction contradiction = andE2 contradiction $ -- andE2 = not a = \a -> False
+                                    andE1 contradiction   -- andE1 = a
+
+    -- prove one direction in one of of de Morgans laws:
+    -- "not A or not B" implies "not (A and B)"
+    deMorgan :: Or (Not a) (Not b) -> Not (And a b)
+    deMorgan (OrI1 notA) = \aAndB -> notA (andE1 aAndB)
+    deMorgen (OrI2 notB) = \aAndB -> notB (andE2 aAndB)

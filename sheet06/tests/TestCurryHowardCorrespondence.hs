@@ -1,5 +1,5 @@
 module TestCurryHowardCorrespondence where
-    import CurryHowardCorrespondence (andE1, And (..), andE2, orE, Or (..), commutativeAnd, distributiveOrAnd)
+    import CurryHowardCorrespondence (andE1, And (..), andE2, orE, Or (..), commutativeAnd, distributiveOrAnd, notNot)
     import TestUtils (testEq)
 
     andTests = [
@@ -17,11 +17,7 @@ module TestCurryHowardCorrespondence where
             testEq "and is commutative" "yo" $ andE2 $ commutativeAnd (AndI "yo" 20)
         ]
 
-    -- TODO: implement a test case for distributiveOrAnd
-    distributiveOrAndTests = []
-
     curryHowardCorrespondenceTestCases =
         andTests ++
         orTests ++
-        commutativeAndTests ++
-        distributiveOrAndTests
+        commutativeAndTests
