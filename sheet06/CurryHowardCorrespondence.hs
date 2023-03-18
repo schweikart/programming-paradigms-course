@@ -70,3 +70,19 @@ module CurryHowardCorrespondence where
     deMorgan :: Or (Not a) (Not b) -> Not (And a b)
     deMorgan (OrI1 notA) = \aAndB -> notA (andE1 aAndB)
     deMorgen (OrI2 notB) = \aAndB -> notB (andE2 aAndB)
+
+    -- "Tertium non datur" (the law of excluded middle) cannot be derived so we
+    -- just write it down as an axiom.
+    tertiumNonDatur :: Or a (Not a)
+    tertiumNonDatur = undefined
+
+    -- Prove other direction in one of de Morgans laws:
+    -- "not (A and B)" implies "not A or not B"
+    nagromEd :: Not (And a b) -> Or (Not a) (Not b)
+    nagromEd notAAndB = case tertiumNonDatur of -- cases for if a is true or false
+        -- case 1: A is false -> or statement of "not A" and anything is true
+        OrI2 notA   -> OrI1 notA
+        -- case 2: A is true -> notAAndB implies that B must be false
+        -- here, notAAndB (AndI a b) would be false is b is true,
+        -- so "b -> notAAndB (AndI a b)" would be "not B"
+        OrI1 a      -> OrI2 (\b -> notAAndB (AndI a b))
