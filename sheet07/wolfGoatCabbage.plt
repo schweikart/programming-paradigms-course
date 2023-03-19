@@ -1,5 +1,5 @@
 :- begin_tests(wolfGoatCabbage).
-:- use_module(wolfGoatCabbage, [location/1, allowed/1, ride/3]).
+:- use_module(wolfGoatCabbage, [location/1, allowed/1, ride/3, solution/1]).
 
 % there are exactly two locations
 test(location) :- findall(L, location(L), Ls), length(Ls, 2).
@@ -18,6 +18,8 @@ test(ride) :-
         (cabbage, (right, left, left, right))
     ].
 
-
+test(solution) :-
+    findall(Rides, solution(Rides), RidesList),
+    member([goat, empty, wolf, goat, cabbage, empty, goat], RidesList).
 
 :- end_tests(wolfGoatCabbage).
