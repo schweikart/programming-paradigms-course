@@ -17,3 +17,13 @@ put([(C, CoinAmount)|OtherCoins], C, [(C, IncreasedCoinAmount)|OtherCoins]) :-
 put([(NotC, CoinAmount)|OtherCoins], C, [(NotC, CoinAmount)|NewOtherCoins]) :-
     put(OtherCoins, C, NewOtherCoins).
 put([], C, [(C, 1)]).
+
+% signature: change(X, Av, Change) finds a coin combinations (Change) from
+% the available coins (Av) that sum up to X.
+change(0, _, []).
+change(X, Av, Change) :-
+    remove(Av, C, NewAv),
+    X >= C,
+    NewX is X - C,
+    change(NewX, NewAv, NewChange),
+    put(NewChange, C, Change).
