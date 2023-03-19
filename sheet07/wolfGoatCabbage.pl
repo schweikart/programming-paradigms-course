@@ -1,4 +1,4 @@
-:- module(wolfGoatCabbage, [location/1, allowed/1]).
+:- module(wolfGoatCabbage, [location/1, allowed/1, ride/3]).
 
 % define allowed locations
 location(left).
@@ -7,8 +7,8 @@ location(right).
 other(left, right).
 other(right, left).
 
-check(_, Danger1, Danger2) :- other(Danger1, Danger2).
 check(SameLoc, SameLoc, SameLoc).
+check(_, Danger1, Danger2) :- other(Danger1, Danger2).
 
 % signature: allowed((Man, Goat, Wolf, Cabbage))
 allowed((Man, Goat, Wolf, Cabbage)) :-
