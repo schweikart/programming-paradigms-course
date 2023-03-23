@@ -29,7 +29,7 @@ int main(int argc, char** args) {
     number++;
 
     // collect numbers
-    MPI_Gather(&number, 1, MPI_INT, &numbers, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Gather(&number, 1, MPI_INT, numbers, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
     // aggregate collected numbers
     if (rank == 0) {
