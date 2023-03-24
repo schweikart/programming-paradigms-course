@@ -3,3 +3,6 @@
 
 # some haskell directory created in builds and tests
 dist-newstyle/
+
+# compiled java classes
+*.class

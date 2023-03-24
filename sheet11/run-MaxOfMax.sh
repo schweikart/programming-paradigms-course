@@ -1,0 +1,1 @@
+javac MaxOfMax.java
