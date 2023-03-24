@@ -11,8 +11,10 @@ void matrixMultiply(int n, int a[n][n], int b[n][n], int c[n][n]) {
     int linesPerProc = n / procs;
 
     int offset = linesPerProc * rank;
+
+    int* a_recvbuf = (rank == 0) ? (MPI_IN_PLACE) : (a + offset);
     MPI_Scatter(a, linesPerProc * n, MPI_INT,
-                a + offset, linesPerProc * n, MPI_INT,
+                a_recvbuf, linesPerProc * n, MPI_INT,
                 0, MPI_COMM_WORLD);
     MPI_Bcast(b, n * n, MPI_INT, 0, MPI_COMM_WORLD);
 
@@ -20,15 +22,25 @@ void matrixMultiply(int n, int a[n][n], int b[n][n], int c[n][n]) {
         int row = offset + i;
         for (int col = 0; col < n; col++) {
             c[row][col] = 0;
-            for (int j; j < linesPerProc; j++) {
+            for (int j = 0; j < n; j++) {
                 c[row][col] += a[row][j] * b[j][col];
             }
         }
     }
 
-    MPI_Gather(c + offset, linesPerProc * n, MPI_INT,
+    int* c_sendbuf = (rank == 0) ? MPI_IN_PLACE : (c + offset);
+    MPI_Gather(c_sendbuf, linesPerProc * n, MPI_INT,
                c, linesPerProc * n, MPI_INT,
                0, MPI_COMM_WORLD);
+}
+
+void print_matrix(int n, int matrix[n][n]) {
+    for (int row = 0; row < n; row++) {
+        for (int col = 0; col < n; col++) {
+            printf("%02i ", matrix[row][col]);
+        }
+        printf("\n");
+    }
 }
 
 int main(int argc, char** argv) {
@@ -61,11 +73,14 @@ int main(int argc, char** argv) {
 
     matrixMultiply(4, a, b, c);
 
-    for (int row = 0; row < 4; row++) {
-        for (int col = 0; col < 4; col++) {
-            printf("%i ", c[row][col]);
-        }
-        printf("\n");
+    // only root knows the result
+    if (rank == 0) {
+        printf("a =\n");
+        print_matrix(4, a);
+        printf("b = \n");
+        print_matrix(4, b);
+        printf("c = \n");
+        print_matrix(4, c);
     }
 
     MPI_Finalize();
