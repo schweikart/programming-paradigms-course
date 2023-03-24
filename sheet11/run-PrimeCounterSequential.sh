@@ -1,0 +1,2 @@
+javac PrimeTester.java PrimeCounterSequential.java
+java PrimeCounterSequential 100000000
