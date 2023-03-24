@@ -1,6 +1,7 @@
 #include <mpi/mpi.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 void matrixMultiply(int n, int a[n][n], int b[n][n], int c[n][n]) {
     int procs;
@@ -48,10 +49,11 @@ int main(int argc, char** argv) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    int a[4][4], b[4][4];
+    int n = 4;
+    int a[n][n], b[n][n];
 
     // only the root should know the data at first
-    if (rank == 0) {
+    if (rank == 0 && n == 4) {
         int a_input[4][4] = {
             { 1, 2, 3, 4},
             { 5, 6, 7, 8},
@@ -69,12 +71,16 @@ int main(int argc, char** argv) {
         memcpy(b, b_input, sizeof(b_input));
     }
     
-    int c[4][4];
+    int c[n][n];
 
-    matrixMultiply(4, a, b, c);
+    clock_t begin = clock();
+    matrixMultiply(n, a, b, c);
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    if (rank == 0) printf("n = %i, t = %f\n", n, time_spent);
 
     // only root knows the result
-    if (rank == 0) {
+    if (rank == 0 && n == 4) {
         printf("a =\n");
         print_matrix(4, a);
         printf("b = \n");
