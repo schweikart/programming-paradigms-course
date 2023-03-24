@@ -31,6 +31,8 @@ public class MaxOfMax {
             results.add(future.get());
         }
 
+        threadPool.shutdown();
+
         return findMax(results);
     }
 
