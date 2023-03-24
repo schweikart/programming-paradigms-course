@@ -47,6 +47,8 @@ public class MaxOfMax {
     }
 
     private Integer findMaxStream(Collection<Integer> numbers) {
-        return numbers.parallelStream().max(Comparator.naturalOrder()).get();
+        return numbers.parallelStream()
+            .max(Comparator.naturalOrder())
+            .orElse(Integer.MIN_VALUE);
     }
 }
