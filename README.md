@@ -38,6 +38,38 @@ chocolatey from an elevated shell:
 choco install swi-prolog
 ```
 
+### **OpenJML**
+OpenJML is not available in Windows but can be used inside an Ubuntu 20.04 WSL.
+
+1. Download the most recent release of OpenJML from its
+   [GitHub Releases](https://github.com/OpenJML/OpenJML/releases/latest) page using
+   wget:
+
+   ```shell
+   wget LINK_TO_OPENJML_ZIP
+   # e.g.
+   wget https://github.com/OpenJML/OpenJML/releases/download/0.17.0-alpha-15/openjml-ubuntu-20.04-0.17.0-alpha-15.zip
+   ```
+2. Extract the file to `/opt/openjml`, sudo might be necessary:
+
+   ```shell
+   sudo unzip PATH_TO_OPENJML_ZIP -d /opt/openjml
+   # e.g.
+   sudo unzip openjml-ubuntu-20.04-0.17.0-alpha-15.zip -d /opt/openjml
+   ```
+3. Add `/opt/openjml` to your `PATH` env variable by adding the following line
+   to the end of your `~/.bashrc` file:
+
+   ```bash
+   export PATH=$PATH:/opt/openjml
+   ```
+4. Restart your shell and use the following command to check your installation:
+   
+   ```shell
+   openjml -version
+   # should print your downloaded OpenJML version to the console
+   ```
+
 ### **VSCode Extensions**
 The following extensions can help with autocompletion, debugging tools and
 linting:
